@@ -1,0 +1,29 @@
+.TopDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-radius: 1em;
+    border-color: #5f3e90;
+    border-style: solid;
+    margin-top: 1em;
+    margin-left: .5em;
+    margin-right: .5em;
+}
+.HorizDiv{
+    width: fit-content;
+    margin-left: 1em;
+}
+.Space{
+width: 55%;
+}
+.remove{
+    width: 5em;
+    height: 2em;
+    margin-right: 1em;
+    vertical-align: center;
+    outline: none;
+    border-style: none;
+    border-radius: 1.6em;
+    color: whitesmoke;
+    background-color: #4E4848;
+}
