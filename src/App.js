@@ -13,7 +13,7 @@ function App() {
     function handleLoggingIn(uid) {
         setUid(uid);
         setLogIn(true);
-        setTimesCalled(timesCalled+1);
+        //setTimesCalled(timesCalled+1);
         //alert("Logged in");
         setSignupVisible(false);
         setLoginVisible(false);
@@ -41,7 +41,7 @@ function App() {
                          onLogIn={handleLoggingIn}></LoginScreen>
             <SignupScreen setUid = {setUid} handleLoggingIn={handleLoggingIn} visibleState={signupVisible}
                           useAccount={useAccount}></SignupScreen>
-            <TicketScreen uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
+            <TicketScreen setTimeCalled = {setTimesCalled} uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
         </div>
     );
 }

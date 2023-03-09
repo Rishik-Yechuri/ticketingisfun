@@ -26,6 +26,7 @@ import {useEffect, useState} from "react";
     };
 
 // Initialize Firebase
+     const [timesCalled, setTimesCalled] = useState(0);
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
@@ -38,6 +39,10 @@ import {useEffect, useState} from "react";
      //cards.push(<Card subtitle={"please"} title={"hi"} />);
 
      const searchInput = (event) => {
+         var searchQuery =   document.getElementById("SearchBar").value;
+
+         // Get the value of the input element
+         //var textValue = inputElement.value;
          var tempArr = JSON.parse(localStorage.getItem("set"));
          var arr = [];
          for (const key in tempArr){
@@ -47,17 +52,17 @@ import {useEffect, useState} from "react";
              //}
          }
          //document.getElementById('holdCards').innerHTML = "";
-         var first = event.target.value.substring(0,1);
-         var second = event.target.value.substring(1);
-         var searchVal = event.target.value;
+         var first = searchQuery.substring(0,1);
+         var second = searchQuery.substring(1);
+         //var searchVal = searchQuery;
          const allCards = [];
-         if(event.target.value.length<=0){
+         if(searchQuery.length<=0){
              for (const key in tempArr) {
                  if (tempArr.hasOwnProperty(key)) {
                      first = key.substring(0,1);
-                     alert("First:" + first);
+                     //alert("First:" + first);
                      second = key.substring(1);
-                     alert("Second:" + second);
+                     //alert("Second:" + second);
                      const newCard = <Card title={"Row " + first} subtitle={"Seat #" + second} />;
                      allCards.push(newCard);
                  }
@@ -72,7 +77,7 @@ import {useEffect, useState} from "react";
              }*/
          }else{
              var contains = false;
-             if(arr.includes(event.target.value)){
+             if(arr.includes(searchQuery)){
                  contains = true;
              }
              if(contains){
@@ -100,12 +105,12 @@ import {useEffect, useState} from "react";
                 // var tempObj = JSON.stringify(data);
                  //var obj = JSON.parse(tempObj);
                 // alert("Document data:" + data);
-                 for (const key in data){
+                 //for (const key in data){
                     // if(data.hasOwnProperty(key)){
                          //alert("key:" + key);
                         // set.add(key);
                      //}
-                 }
+               //  }
                  localStorage.setItem("set",JSON.stringify(data));
              } else {
                  // doc.data() will be undefined in this case
@@ -114,9 +119,14 @@ import {useEffect, useState} from "react";
          }
          if (localStorage.getItem("uid") != null) {
              uid = localStorage.getItem("uid");
-             pleaseWork().then(r => {});
+             pleaseWork().then(r => {
+                 searchInput();
+             });
          }
-     }, [props.uid]);
+     }, [props.uid,timesCalled]);
+     function timesUp(){
+         setTimesCalled(timesCalled+1)
+     }
     //var uid;// = localStorage.get("uid");
 
    // alert("UID:" + uid);
@@ -140,7 +150,7 @@ import {useEffect, useState} from "react";
     return (
         <div className={"Main"} style={{visibility: props.loggedIn ? 'visible' : 'hidden'}}>
             <div className={"SideBar"}>
-                <input className={"Search"} onChange={searchInput}/>
+                <input id={"SearchBar"} className={"Search"} onChange={timesUp}/>
                 <div id={"holdCards"}>
                     {cards}
                 </div>
