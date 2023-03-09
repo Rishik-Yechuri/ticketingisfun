@@ -38,48 +38,51 @@ import {useEffect, useState} from "react";
      //cards.push(<Card subtitle={"please"} title={"hi"} />);
 
      const searchInput = (event) => {
-         alert("Search");
          var tempArr = JSON.parse(localStorage.getItem("set"));
          var arr = [];
          for (const key in tempArr){
              // if(data.hasOwnProperty(key)){
-             alert("key:" + key);
+             //alert("key:" + key);
               arr.push(key);
              //}
          }
-         document.getElementById('holdCards').innerHTML = "";
+         //document.getElementById('holdCards').innerHTML = "";
          var first = event.target.value.substring(0,1);
          var second = event.target.value.substring(1);
          var searchVal = event.target.value;
-         //alert("Ticket val:" + event.target.value);
-         //alert("Len:" + arr.length)
-         var contains = false;
-         if(arr.includes(event.target.value)){
-             contains = true;
-         }
-         /*for(var x=0;x<arr.length;x++){
-             alert("val:" + arr.at(x) + " Event:" + event.target.value);
-             if(arr.at(x).toString() === event.target.value){
-                 alert("CONTAINED")
+         const allCards = [];
+         if(event.target.value.length<=0){
+             for (const key in tempArr) {
+                 if (tempArr.hasOwnProperty(key)) {
+                     first = key.substring(0,1);
+                     alert("First:" + first);
+                     second = key.substring(1);
+                     alert("Second:" + second);
+                     const newCard = <Card title={"Row " + first} subtitle={"Seat #" + second} />;
+                     allCards.push(newCard);
+                 }
+                 setCards(allCards);
+             }
+           /*  for(const x in arr){
+                 alert(x);
+                 const newCard = <Card title={x} subtitle={x} key={x} />;
+                 //const newCard2 = <Card title={1} subtitle={1} key={x}/>;
+                 setCards([...cards, newCard]);
+                 //setCards([...cards, newCard2]);
+             }*/
+         }else{
+             var contains = false;
+             if(arr.includes(event.target.value)){
                  contains = true;
              }
-         }*/
-         if(contains){
-                // setCardCount(cardCount + 3);
-
-
-             //const cards = [];
-            // for (let i = 0; i < cardCount; i++) {
-             alert("here:");
-             const newCard = <Card title={"hi"} subtitle={"hello"} />;
-             setCards([...cards, newCard]);
-             //}
-         }
-
-         //setInputValue(event.target.value);
-         // do something with the input value here
-         if(true){
-
+             if(contains){
+                // alert("here:");
+                 const newCard = <Card title={"Row " + first} subtitle={"Seat #" + second} />;
+                 allCards.push(newCard);
+                 // setCards([...cards, newCard]);
+                 //}
+             }
+             setCards(allCards);
          }
      };
 

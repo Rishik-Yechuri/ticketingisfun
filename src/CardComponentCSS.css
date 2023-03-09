@@ -14,7 +14,7 @@
     margin-left: 1em;
 }
 .Space{
-width: 55%;
+
 }
 .remove{
     width: 5em;
@@ -26,4 +26,5 @@ width: 55%;
     border-radius: 1.6em;
     color: whitesmoke;
     background-color: #4E4848;
+    margin-left:auto ;
 }
