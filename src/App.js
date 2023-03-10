@@ -6,6 +6,7 @@ import LoginScreen from "./LoginScreen";
 import {useState} from "react";
 import SignupScreen from "./SignupScreen";
 import TicketScreen from "./TicketScreen";
+import Checkout from "./Checkout";
 
 function App() {
     const [logIn, setLogIn] = useState(false);
@@ -23,6 +24,7 @@ function App() {
     const [loginVisible, setLoginVisible] = useState(true);
     const [timesCalled, setTimesCalled] = useState(0);
     const [uid, setUid] = useState(0);
+    const [checkoutVisible,setCheckoutVisible] = useState(false);
 
 
     function createAccount() {
@@ -42,6 +44,7 @@ function App() {
             <SignupScreen setUid = {setUid} handleLoggingIn={handleLoggingIn} visibleState={signupVisible}
                           useAccount={useAccount}></SignupScreen>
             <TicketScreen setTimeCalled = {setTimesCalled} uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
+            <Checkout visible={checkoutVisible}></Checkout>
         </div>
     );
 }

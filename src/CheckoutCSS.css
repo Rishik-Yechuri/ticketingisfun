@@ -1,0 +1,41 @@
+.checkout-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.purchased-cards {
+    margin-bottom: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.card span {
+    margin-right: 10px;
+}
+
+.card button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background-color: #ccc;
+}
+
+.payment-box {
+    /* Payment box styles go here */
+}
