@@ -20,11 +20,26 @@
     text-indent: 1em;
     margin-bottom: 1.2em;
 }
-.seatingPng{
-    width: 1000px;
-    height: 100px;
+#holdPng{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#seatingPng{
+    max-height: 40em;
 }
 .Map{
     width: 10em;
     height: 10em;
+}
+.stickRight{
+    display: flex;
+    margin-left: auto;
+    width: 8em;
+    justify-content: center;
+}
+#cartPng{
+    max-height: 2em;
+    margin-top: 1em;
 }

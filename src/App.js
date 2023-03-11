@@ -43,7 +43,7 @@ function App() {
                          onLogIn={handleLoggingIn}></LoginScreen>
             <SignupScreen setUid = {setUid} handleLoggingIn={handleLoggingIn} visibleState={signupVisible}
                           useAccount={useAccount}></SignupScreen>
-            <TicketScreen setTimeCalled = {setTimesCalled} uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
+            <TicketScreen checkoutVisible={checkoutVisible} setCheckoutVisible={setCheckoutVisible} setTimeCalled = {setTimesCalled} uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
             <Checkout visible={checkoutVisible}></Checkout>
         </div>
     );

@@ -25,21 +25,18 @@ function Card({ uid,title, subtitle }) {
     const db = getFirestore(app);
 
     function checkFieldExists() {
-        alert("Called")
+       // alert("Called")
         const functions = getFunctions();
         const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
         const fieldName = title + subtitle;
         //fieldName = fieldName.toString();
-        alert("uid:" + uid)
+        //alert("uid:" + uid)
         checkFieldExists({ 'fieldName': [fieldName] , 'uid' : uid})
             .then((result) => {
                 // Read result of the Cloud Function.
                 /** @type {any} */
                 const data = result.data;
-                if(JSON.stringify(data) !== ''){
-                    alert("Data:" + JSON.stringify(data));
-                    //alert(JSON.stringify(data).length);
-                }
+                alert(data.message);
                // const sanitizedMessage = data.text;
             });
 

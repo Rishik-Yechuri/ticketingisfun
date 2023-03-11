@@ -130,7 +130,9 @@ function TicketScreen(props) {
     function timesUp() {
         setTimesCalled(timesCalled + 1)
     }
-
+    function goToCheckout(){
+        props.setCheckoutVisible(true);
+    }
     //var uid;// = localStorage.get("uid");
 
     // alert("UID:" + uid);
@@ -152,7 +154,7 @@ function TicketScreen(props) {
          }
      }*/
     return (
-        <div className={"Main"} style={{visibility: props.loggedIn ? 'visible' : 'hidden'}}>
+        <div className={"Main"}  style={{visibility: props.loggedIn && !props.checkoutVisible ? 'visible' : 'hidden'}}>
             <div className={"SideBar"}>
                 <input id={"SearchBar"} className={"Search"} onChange={timesUp}/>
                 <div id={"holdCards"}>
@@ -160,11 +162,12 @@ function TicketScreen(props) {
                 </div>
 
             </div>
-
-            <img src={require('./wpac.jpg')} alt="My Image" />
-
-
-
+            <div id={"holdPng"}>
+                <img id={"seatingPng"} src={require('./wpac.jpg')} />
+            </div>
+            <div className={"stickRight"}>
+                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+            </div>
         </div>
 );
 }
