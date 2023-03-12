@@ -110,7 +110,7 @@ function TicketScreen(props) {
                 localStorage.setItem("set", JSON.stringify(data));
             } else {
                 // doc.data() will be undefined in this case
-                alert("No such document!");
+                alert("Error getting account info");
             }
         }
 

@@ -52,12 +52,12 @@ function Checkout(props) {
                     setCards(allCards);
                     setCardNum(allCards.length);
                 } else if (data.status === 'fail') {
-                    alert("No Items in cart(10 minute time limit to buy tickets)");
+                    //alert("No Items in cart(10 minute time limit to buy tickets)");
                 } else {
-                    alert("Server error");
+                    //alert("Server error");
                 }
             }).catch((error) => {
-            alert('Error calling createPaymentIntent function: ' + error.message);
+            //alert('Client Error: ' + error.message);
         });
     };
     useEffect(() => {
@@ -89,7 +89,9 @@ function Checkout(props) {
                     } else {
                         alert("Server error");
                     }
-                });
+                }).catch((error) => {
+                alert('Client Error: ' + error.message);
+            });
             //Get bought
            // const functions = getFunctions();
             const boughtExists = httpsCallable(functions, 'boughtExists');
