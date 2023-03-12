@@ -5,6 +5,7 @@ import Card from "./CardComponent";
 import {doc, getFirestore, getDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import {useEffect, useState} from "react";
+import {getFunctions, httpsCallable} from "firebase/functions";
 
 //import firebase from 'firebase/app';
 
@@ -31,6 +32,7 @@ function TicketScreen(props) {
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
+    const functions = getFunctions();
     const lineStyle = {
         borderBottom: '1px solid #ccc',
         margin: '0em 0',
@@ -69,13 +71,6 @@ function TicketScreen(props) {
                 }
                 setCards(allCards);
             }
-            /*  for(const x in arr){
-                  alert(x);
-                  const newCard = <Card title={x} subtitle={x} key={x} />;
-                  //const newCard2 = <Card title={1} subtitle={1} key={x}/>;
-                  setCards([...cards, newCard]);
-                  //setCards([...cards, newCard2]);
-              }*/
         } else {
             var contains = false;
             if (arr.includes(searchQuery)) {
@@ -153,6 +148,7 @@ function TicketScreen(props) {
              cardComponents.push(<div style={lineStyle}></div>)
          }
      }*/
+
     return (
         <div className={"Main"}  style={{visibility: props.loggedIn && !props.checkoutVisible ? 'visible' : 'hidden'}}>
             <div id={"holdPng"}>

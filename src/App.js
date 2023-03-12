@@ -7,6 +7,8 @@ import {useState} from "react";
 import SignupScreen from "./SignupScreen";
 import TicketScreen from "./TicketScreen";
 import Checkout from "./Checkout";
+import {getFunctions, httpsCallable} from "firebase/functions";
+import Card from "./CardComponent";
 
 function App() {
     const [logIn, setLogIn] = useState(false);
