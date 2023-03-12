@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './CardComponentCSS.css'
 import firebase, {initializeApp} from 'firebase/app';
 import 'firebase/firestore';
 import {getFirestore} from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-function Card({ uid,title, subtitle }) {
+function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
     const firebaseConfig = {
         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
         authDomain: "ticketingisfun.firebaseapp.com",
@@ -21,25 +21,31 @@ function Card({ uid,title, subtitle }) {
 
     const app = initializeApp(firebaseConfig);
     const functions = getFunctions(app);
-
+    const [buttonText, setButtonText] = useState(removeEnabled ? '' : 'Add');
+    if(removeEnabled){
+        //setButtonText('Remove');
+    }
     const db = getFirestore(app);
 
-    function checkFieldExists() {
-       // alert("Called")
-        const functions = getFunctions();
-        const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
-        const fieldName = title + subtitle;
-        //fieldName = fieldName.toString();
-        //alert("uid:" + uid)
-        checkFieldExists({ 'fieldName': [fieldName] , 'uid' : uid})
-            .then((result) => {
-                // Read result of the Cloud Function.
-                /** @type {any} */
-                const data = result.data;
-                alert(data.message);
-               // const sanitizedMessage = data.text;
-            });
-
+    async function checkFieldExists() {
+        if (removeEnabled) {
+            onRemove();
+        } else {
+            // alert("Called")
+            const functions = getFunctions();
+            const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
+            const fieldName = title + subtitle;
+            //fieldName = fieldName.toString();
+            alert("uid:" + uid)
+            await checkFieldExists({'fieldName': [fieldName], 'uid': uid})
+                .then((result) => {
+                    // Read result of the Cloud Function.
+                    /** @type {any} */
+                    const data = result.data;
+                    alert(data.message);
+                    // const sanitizedMessage = data.text;
+                });
+        }
     }
     return (
         <div className={"TopDiv"} style={{
@@ -51,8 +57,8 @@ function Card({ uid,title, subtitle }) {
                 <p style={{color:"whitesmoke", fontSize: '1em' }}>{"Seat #" + subtitle}</p>
             </div>
             <div className={"Space"}></div>
-            <button className="remove" onClick={checkFieldExists}>
-                Add
+            <button id={"removeButton"} className="remove" onClick={checkFieldExists}>
+                {buttonText}
             </button>
         </div>
     );

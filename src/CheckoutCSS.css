@@ -1,12 +1,20 @@
 .checkout-page {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-}
+    flex-direction: row;
 
+    width: 100%;
+    justify-content: center;
+
+}
+#CartText{
+    margin-left: 1em;
+}
 .purchased-cards {
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    margin-left: 5em;
+    margin-bottom: 1em;
     color: whitesmoke;
 }
 
@@ -14,7 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 1em;
     border: 1px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -38,5 +46,8 @@
 }
 
 .payment-box {
+    width: 20em;
+    height: 20em;
+    background-color: deeppink;
     /* Payment box styles go here */
 }

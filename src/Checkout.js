@@ -1,52 +1,93 @@
 import React, {useEffect, useState} from 'react';
 import './CheckoutCSS.css';
 import {getFunctions, httpsCallable} from "firebase/functions";
+import {loadStripe} from "@stripe/stripe-js";
+import {Elements, useElements, useStripe} from "@stripe/react-stripe-js";
 import Card from "./CardComponent";
+import PaymentForm from "./PaymentForm";
+import {initializeApp} from "firebase/app";
+//const promise = loadStripe("pk_test_51MkMPFGrSpioNuBcxC8R6iINnsy6qsTpjCgYEKEVgrK0TuZM60JsZETBSmmkvBbeH1cCikRkpjioCJvw6dYIkkVi00EzlSm3t6");
+
+const stripePromise = loadStripe('pk_test_51MkMPFGrSpioNuBcxC8R6iINnsy6qsTpjCgYEKEVgrK0TuZM60JsZETBSmmkvBbeH1cCikRkpjioCJvw6dYIkkVi00EzlSm3t6');
 
 function Checkout(props) {
     // Define state for the purchased cards
+    const [pay, setPay] = useState(0);
+    const [event, setEvent] = useState(null);
     const [cards, setCards] = useState([]);
-
+    const [cardNum, setCardNum] = useState(0);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [processing, setProcessing] = useState(false);
+    /*const stripe = useStripe();
+    const elements = useElements();*/
     // Define a function to handle removing a card from the list
-    const handleRemoveCard = (cardId) => {
-        setCards(cards.filter(card => card.id !== cardId));
+    useEffect(() => {
+        if (pay > 0) {
+           // handleSubmit(event);
+        }
+    }, [pay]);
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const functions = getFunctions();
+        const cartExists = httpsCallable(functions, 'prayToGod');
+        //alert('uid:' + localStorage.getItem('uid'));
+        cartExists({'uid': localStorage.getItem('uid'),'currency':'usd','amount':1000})
+            .then((result) => {
+                alert("Here 2");
+                const data = result.data;
+                if (data.status === 'pass') {
+                    //Display products
+                    var inCart = data.message.split(',');
+                    const allCards = [];
+                    //alert('inCart:' + inCart);
+                    inCart.forEach((value) => {
+                        var first = value.substring(0, 1);
+                        var second = value.substring(1);
+                        const newCard = <Card removeEnabled={true} uid={localStorage.getItem('uid')} title={first}
+                                              subtitle={second} id={value}/>;
+                        allCards.push(newCard);
+                    });
+                    setCards(allCards);
+                    setCardNum(allCards.length);
+                } else if (data.status === 'fail') {
+                    alert("No Items in cart(10 minute time limit to buy tickets)");
+                } else {
+                    alert("Server error");
+                }
+            }).catch((error) => {
+            alert('Error calling createPaymentIntent function: ' + error.message);
+        });
     };
     useEffect(() => {
         //alert("Here:" + props.visible)
-        if(props.visible === true){
+        if (props.visible === true) {
             const functions = getFunctions();
             const cartExists = httpsCallable(functions, 'cartExists');
             //alert('uid:' + localStorage.getItem('uid'));
-            cartExists({  'uid' : localStorage.getItem('uid')})
+            cartExists({'uid': localStorage.getItem('uid')})
                 .then((result) => {
                     //alert("Here 2");
                     const data = result.data;
-                    if(data.status === 'pass'){
+                    if (data.status === 'pass') {
                         //Display products
                         var inCart = data.message.split(',');
                         const allCards = [];
                         //alert('inCart:' + inCart);
                         inCart.forEach((value) => {
-                            var first = value.substring(0,1);
+                            var first = value.substring(0, 1);
                             var second = value.substring(1);
-                            const newCard = <Card uid={localStorage.getItem('uid')} title={first} subtitle={second}/>;
+                            const newCard = <Card removeEnabled={true} uid={localStorage.getItem('uid')} title={first}
+                                                  subtitle={second} id={value}/>;
                             allCards.push(newCard);
                         });
-                      /* for(var item in inCart){
-                           alert("Item:" + item);
-                           var first = item.substring(0,1);
-                           var second = item.substring(1);
-                           const newCard = <Card uid={localStorage.getItem('uid')} title={first} subtitle={second}/>;
-                           allCards.push(newCard);
-                       }*/
                         setCards(allCards);
-                    }else if(data.status === 'fail'){
+                        setCardNum(allCards.length);
+                    } else if (data.status === 'fail') {
                         alert("No Items in cart(10 minute time limit to buy tickets)");
-                    }else{
+                    } else {
                         alert("Server error");
                     }
-                    //alert("Here 3:" + data.status + " " + JSON.stringify(data.message));
-                    // const sanitizedMessage = data.text;
                 });
         }
 
@@ -56,10 +97,13 @@ function Checkout(props) {
     return (
         <div className="checkout-page" style={{visibility: props.visible ? 'visible' : 'hidden'}}>
             <div className="purchased-cards">
-                <h2>Purchased Cards</h2>
+                <h2 id={"CartText"}>Cart </h2>
                 {cards}
             </div>
             <div className="payment-box">
+                <Elements stripe={stripePromise}>
+                    <PaymentForm cardNum={cards.length} setEvent={setEvent} setPay={setPay}/>
+                </Elements>
                 {/* Payment box content goes here */}
             </div>
         </div>
