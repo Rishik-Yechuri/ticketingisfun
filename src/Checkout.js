@@ -15,6 +15,7 @@ function Checkout(props) {
     const [pay, setPay] = useState(0);
     const [event, setEvent] = useState(null);
     const [cards, setCards] = useState([]);
+    const [boughtCards, setBoughtCards] = useState([]);
     const [cardNum, setCardNum] = useState(0);
     const [errorMessage, setErrorMessage] = useState(null);
     const [processing, setProcessing] = useState(false);
@@ -89,6 +90,34 @@ function Checkout(props) {
                         alert("Server error");
                     }
                 });
+            //Get bought
+           // const functions = getFunctions();
+            const boughtExists = httpsCallable(functions, 'boughtExists');
+            //alert('uid:' + localStorage.getItem('uid'));
+            boughtExists({'uid': localStorage.getItem('uid')})
+                .then((result) => {
+                    //alert("Here 2");
+                    const data = result.data;
+                    if (data.status === 'pass') {
+                        //Display products
+                        var inCart = data.message.split(',');
+                        const allCards = [];
+                        //alert('inCart:' + inCart);
+                        inCart.forEach((value) => {
+                            var first = value.substring(0, 1);
+                            var second = value.substring(1);
+                            const newCard = <Card removeEnabled={true} uid={localStorage.getItem('uid')} title={first}
+                                                  subtitle={second} id={value}/>;
+                            allCards.push(newCard);
+                        });
+                        setBoughtCards(allCards);
+                        //setCardNum(allCards.length);
+                    } else if (data.status === 'fail') {
+                        //alert("No Items in cart(10 minute time limit to buy tickets)");
+                    } else {
+                        alert("Server error when getting purchased items");
+                    }
+                });
         }
 
     }, [props.visible]);
@@ -100,11 +129,14 @@ function Checkout(props) {
                 <h2 id={"CartText"}>Cart </h2>
                 {cards}
             </div>
+            <div className="purchased-cards">
+                <h2 id={"BoughtText"}>Purchased </h2>
+                {boughtCards}
+            </div>
             <div className="payment-box">
                 <Elements stripe={stripePromise}>
                     <PaymentForm cardNum={cards.length} setEvent={setEvent} setPay={setPay}/>
                 </Elements>
-                {/* Payment box content goes here */}
             </div>
         </div>
     );

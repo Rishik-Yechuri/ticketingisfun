@@ -155,18 +155,18 @@ function TicketScreen(props) {
      }*/
     return (
         <div className={"Main"}  style={{visibility: props.loggedIn && !props.checkoutVisible ? 'visible' : 'hidden'}}>
+            <div id={"holdPng"}>
+                <img id={"seatingPng"} src={require('./wpac.jpg')} />
+            </div>
+            <div className={"stickRight"}>
+                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+            </div>
             <div className={"SideBar"}>
                 <input id={"SearchBar"} className={"Search"} onChange={timesUp}/>
                 <div id={"holdCards"}>
                     {cards}
                 </div>
 
-            </div>
-            <div id={"holdPng"}>
-                <img id={"seatingPng"} src={require('./wpac.jpg')} />
-            </div>
-            <div className={"stickRight"}>
-                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
             </div>
         </div>
 );

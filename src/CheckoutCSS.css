@@ -1,10 +1,10 @@
 .checkout-page {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 
     width: 100%;
     justify-content: center;
-
+align-items: center;
 }
 #CartText{
     margin-left: 1em;
@@ -15,6 +15,7 @@
     justify-self: center;
     margin-left: 5em;
     margin-bottom: 1em;
+    max-width: 15em;
     color: whitesmoke;
 }
 
@@ -48,6 +49,7 @@
 .payment-box {
     width: 20em;
     height: 20em;
-    background-color: deeppink;
+    margin-top: 2em;
+    margin-left: 1em;
     /* Payment box styles go here */
 }
