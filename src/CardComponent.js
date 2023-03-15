@@ -29,21 +29,18 @@ function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
 
     async function checkFieldExists() {
         if (removeEnabled) {
-            onRemove();
+            //onRemove();
         } else {
             // alert("Called")
             const functions = getFunctions();
             const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
             const fieldName = title + subtitle;
-            //fieldName = fieldName.toString();
-            //alert("uid:" + uid)
+
             await checkFieldExists({'fieldName': [fieldName], 'uid': uid})
                 .then((result) => {
                     // Read result of the Cloud Function.
                     /** @type {any} */
                     const data = result.data;
-                   // alert(data.message);
-                    // const sanitizedMessage = data.text;
                 });
         }
     }

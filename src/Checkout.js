@@ -15,8 +15,7 @@ function Checkout(props) {
     const [pay, setPay] = useState(0);
     const [event, setEvent] = useState(null);
     const [cards, setCards] = useState([]);
-    const [boughtCards, setBoughtCards] = useState([]);
-    const [cardNum, setCardNum] = useState(0);
+     const [cardNum, setCardNum] = useState(0);
     const [errorMessage, setErrorMessage] = useState(null);
     const [processing, setProcessing] = useState(false);
     /*const stripe = useStripe();
@@ -112,7 +111,6 @@ function Checkout(props) {
                                                   subtitle={second} id={value}/>;
                             allCards.push(newCard);
                         });
-                        setBoughtCards(allCards);
                         //setCardNum(allCards.length);
                     } else if (data.status === 'fail') {
                         //alert("No Items in cart(10 minute time limit to buy tickets)");
@@ -131,10 +129,7 @@ function Checkout(props) {
                 <h2 id={"CartText"}>Cart </h2>
                 {cards}
             </div>
-            <div className="purchased-cards">
-                <h2 id={"BoughtText"}>Purchased </h2>
-                {boughtCards}
-            </div>
+
             <div className="payment-box">
                 <Elements stripe={stripePromise}>
                     <PaymentForm cardNum={cards.length} setEvent={setEvent} setPay={setPay}/>

@@ -30,25 +30,9 @@ function LoginScreen(props) {
     var auth = getAuth();
 
     function SignInButton() {
-       // props.createAccount();
-            // Attempt to log into Firebase here
-            // eslint-disable-next-line no-restricted-globals
-            signInWithEmailAndPassword(auth, username, password)
-                .then((userCredential) => {
-                    // Signed in
-                    const user = userCredential.user;
-                    var uid = user.uid;
-                    localStorage.setItem("uid",uid);
-                   // localStorage.
-                    handleSignUpClick(uid);
-                    // ...
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    alert("Error:" + errorMessage);
-                });
-
+        localStorage.setItem("uid",username);
+        // localStorage.
+        handleSignUpClick(username);
     }
     function handleSignUpClick() {
         props.onLogIn();
@@ -66,10 +50,8 @@ function LoginScreen(props) {
     return (
         <div className={"Main"} style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}>
         <div className={"LoginHolder"}>
-            <input  onChange={handleUsername} className={"InputField"} placeholder={"Username"}/>
-            <input className={"InputField"}  onChange={handlePassword} placeholder={"Password"} type={"password"}/>
-            <button onClick={SignInButton} className={"Button"} >Sign In</button>
-            <text onClick={props.createAccount} className={"SwitchPage"}>Create Account </text>
+            <input  onChange={handleUsername} className={"InputField"} placeholder={"Email"}/>
+            <button onClick={SignInButton} className={"Button"} >Next</button>
         </div>
         </div>
     );
