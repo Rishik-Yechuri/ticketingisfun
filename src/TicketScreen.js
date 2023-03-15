@@ -40,37 +40,60 @@ function TicketScreen(props) {
     const [cards, setCards] = useState([]);
 
     //cards.push(<Card subtitle={"please"} title={"hi"} />);
+    function createSortedCards(arr, searchQuery) {
+        const filteredArr = searchQuery
+            ? arr.filter((item) =>
+                item.toUpperCase().startsWith(searchQuery.toUpperCase())
+            )
+            : arr;
+
+        const sortedArr = filteredArr.sort((a, b) => {
+            const aFirst = a.substring(0, 1);
+            const bFirst = b.substring(0, 1);
+            const aSecond = parseInt(a.substring(1));
+            const bSecond = parseInt(b.substring(1));
+
+            if (aFirst < bFirst) {
+                return -1;
+            } else if (aFirst > bFirst) {
+                return 1;
+            } else {
+                if (aSecond < bSecond) {
+                    return -1;
+                } else if (aSecond > bSecond) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        const allCards = sortedArr.map((item) => {
+            const first = item.substring(0, 1);
+            const second = item.substring(1);
+            return <Card uid={uid} title={first} subtitle={second} />;
+        });
+
+        setCards(allCards);
+    }
 
     const searchInput = (event) => {
         var searchQuery = document.getElementById("SearchBar").value;
-
+        searchQuery = searchQuery.toUpperCase();
         // Get the value of the input element
         //var textValue = inputElement.value;
         var tempArr = JSON.parse(localStorage.getItem("set"));
         var arr = [];
         for (const key in tempArr) {
-            // if(data.hasOwnProperty(key)){
-            //alert("key:" + key);
             arr.push(key);
-            //}
         }
         //document.getElementById('holdCards').innerHTML = "";
         var first = searchQuery.substring(0, 1);
         var second = searchQuery.substring(1);
         //var searchVal = searchQuery;
-        const allCards = [];
+        let allCards = [];
         if (searchQuery.length <= 0) {
-            for (const key in tempArr) {
-                if (tempArr.hasOwnProperty(key)) {
-                    first = key.substring(0, 1);
-                    //alert("First:" + first);
-                    second = key.substring(1);
-                    //alert("Second:" + second);
-                    const newCard = <Card uid={uid} title={first} subtitle={second}/>;
-                    allCards.push(newCard);
-                }
-                setCards(allCards);
-            }
+                createSortedCards(arr,null);
         } else if(searchQuery.length > 1){
             var contains = false;
             if (arr.includes(searchQuery)) {
@@ -85,17 +108,20 @@ function TicketScreen(props) {
             }
             setCards(allCards);
         }else{
+            var arrToPass = [];
             for (const key in tempArr) {
                 if (tempArr.hasOwnProperty(key)) {
                     if (key.startsWith(searchQuery)) {
-                        first = key.substring(0, 1);
+                        arrToPass.push(key);
+                        /*first = key.substring(0, 1);
                         second = key.substring(1);
                         const newCard = <Card uid={uid} title={first} subtitle={second}/>;
-                        allCards.push(newCard);
+                        allCards.push(newCard);*/
                     }
                 }
             }
-            setCards(allCards);
+            createSortedCards(arrToPass,searchQuery);
+            //setCards(allCards);
         }
     };
 
