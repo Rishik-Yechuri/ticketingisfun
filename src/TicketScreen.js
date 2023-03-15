@@ -71,7 +71,7 @@ function TicketScreen(props) {
                 }
                 setCards(allCards);
             }
-        } else {
+        } else if(searchQuery.length > 1){
             var contains = false;
             if (arr.includes(searchQuery)) {
                 contains = true;
@@ -82,6 +82,18 @@ function TicketScreen(props) {
                 allCards.push(newCard);
                 // setCards([...cards, newCard]);
                 //}
+            }
+            setCards(allCards);
+        }else{
+            for (const key in tempArr) {
+                if (tempArr.hasOwnProperty(key)) {
+                    if (key.startsWith(searchQuery)) {
+                        first = key.substring(0, 1);
+                        second = key.substring(1);
+                        const newCard = <Card uid={uid} title={first} subtitle={second}/>;
+                        allCards.push(newCard);
+                    }
+                }
             }
             setCards(allCards);
         }
