@@ -196,7 +196,7 @@ function TicketScreen(props) {
                 <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
             </div>
             <div className={"SideBar"}>
-                <input id={"SearchBar"} className={"Search"} onChange={timesUp}/>
+                <input placeholder={"Search(Ex:B-Z, C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
                 <div id={"holdCards"}>
                     {cards}
                 </div>
