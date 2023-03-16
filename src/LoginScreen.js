@@ -9,6 +9,7 @@ import {Link} from 'react-router-dom';
 import './LoginScreenCSS.css';
 
 function LoginScreen(props) {
+
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -57,8 +58,15 @@ function LoginScreen(props) {
         <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
             <div id={"everything"}>
                 <div id={"holdPng"}>
+{/*
                     <img id={"logoPng"} src={require('./kkdslogo.png')}/>
-                    <text className={"titleText"}>Nritya Nirvanam 2023</text>
+*/}
+                    <img id={"eventPng"} src={require('./eventinfo.png')}/>
+
+                    {/*<text className={"titleText"}>Kalamandapam</text>
+                    <text className={"subtitleText"}>Proudly Presents</text>
+                    <text id={"nirvanam"} className={"titleText"}>Nritya Nirvanam 2023</text>
+                    <text className={"eventText"}>Wagner performing arts center | March 26th, seating starts at 3PM | Monroe,WA</text>*/}
                 </div>
                 <div className={"LoginHolder"}>
                     <input onChange={handleName} className={"InputField"}
