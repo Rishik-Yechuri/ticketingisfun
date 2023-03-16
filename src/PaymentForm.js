@@ -42,7 +42,7 @@ const PaymentForm = (props) => {
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
        // alert('uid:' + localStorage.getItem('uid'));
-        cartExists({  paymentMethod: paymentMethod,'uid': localStorage.getItem('uid'),'currency':'usd','amount':(1299 * props.cardNum)})
+        cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(1299 * props.cardNum)})
             .then((result) => {
                // alert("Here 2");
                 const data = result.data;

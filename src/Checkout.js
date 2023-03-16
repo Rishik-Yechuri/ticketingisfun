@@ -32,7 +32,7 @@ function Checkout(props) {
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
         //alert('uid:' + localStorage.getItem('uid'));
-        cartExists({'uid': localStorage.getItem('uid'),'currency':'usd','amount':1000})
+        cartExists({'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid'),'currency':'usd'})
             .then((result) => {
                 alert("Here 2");
                 const data = result.data;

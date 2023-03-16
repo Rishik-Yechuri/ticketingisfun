@@ -1,12 +1,13 @@
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useState } from 'react';
+import {initializeApp} from "firebase/app";
+import {getAnalytics} from "firebase/analytics";
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {useState} from 'react';
 import firebase from 'firebase/app';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 
 import './LoginScreenCSS.css';
+
 function LoginScreen(props) {
 // Import the functions you need from the SDKs you need
 // TODO: Add SDKs for Firebase products that you want to use
@@ -30,33 +31,44 @@ function LoginScreen(props) {
     var auth = getAuth();
 
     function SignInButton() {
-        localStorage.setItem("uid",username);
+        localStorage.setItem("uid", username);
+        localStorage.setItem("name",name);
         //props.visibleState = false;
         // localStorage.
         handleSignUpClick(username);
     }
+
     function handleSignUpClick() {
         props.onLogIn();
     }
+
     const [username, setUserName] = useState('');
+    const [name, setName] = useState('');
+
 
     const handleUsername = (event) => {
         setUserName(event.target.value);
+    };
+    const handleName = (event) => {
+        setName(event.target.value);
     };
 
     return (
         <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
             <div id={"everything"}>
                 <div id={"holdPng"}>
-                    <img id={"logoPng"} src={require('./kkdslogo.png')} />
+                    <img id={"logoPng"} src={require('./kkdslogo.png')}/>
                     <text className={"eventText"}>Nritya Nirvanam 2023</text>
                 </div>
                 <div className={"LoginHolder"}>
-                    <input  onChange={handleUsername} className={"InputField"} placeholder={"Email(Tickets will be sent here)"}/>
-                    <button onClick={SignInButton} className={"Button"} >Next</button>
-            </div>
+                    <input onChange={handleName} className={"InputField"}
+                           placeholder={"Full Name"}/>
+                    <input onChange={handleUsername} className={"InputField"}
+                           placeholder={"Email(Tickets will be sent here)"}/>
+                    <button onClick={SignInButton} className={"Button"}>Next</button>
+                </div>
 
-        </div>
+            </div>
         </div>
     );
 }
