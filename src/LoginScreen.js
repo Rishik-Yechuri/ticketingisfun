@@ -52,7 +52,7 @@ function LoginScreen(props) {
                     <text className={"eventText"}>Nritya Nirvanam 2023</text>
                 </div>
                 <div className={"LoginHolder"}>
-                    <input  onChange={handleUsername} className={"InputField"} placeholder={"Email"}/>
+                    <input  onChange={handleUsername} className={"InputField"} placeholder={"Email(Tickets will be sent here)"}/>
                     <button onClick={SignInButton} className={"Button"} >Next</button>
             </div>
 
