@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import {getFirestore} from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
+function Card({addToCart,onRemove, removeEnabled,uid,title, subtitle, id }) {
     const firebaseConfig = {
         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
         authDomain: "ticketingisfun.firebaseapp.com",
@@ -22,6 +22,7 @@ function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
     const app = initializeApp(firebaseConfig);
     const functions = getFunctions(app);
     const [buttonText, setButtonText] = useState(removeEnabled ? '' : 'Add');
+
     if(removeEnabled){
         //setButtonText('Remove');
     }
@@ -31,7 +32,8 @@ function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
         if (removeEnabled) {
             //onRemove();
         } else {
-            // alert("Called")
+            //alert("HERE: " + id)
+            setButtonText("✓" );
             const functions = getFunctions();
             const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
             const fieldName = title + subtitle;
@@ -41,6 +43,18 @@ function Card({onRemove, removeEnabled,uid,title, subtitle, id }) {
                     // Read result of the Cloud Function.
                     /** @type {any} */
                     const data = result.data;
+                    var returnMessage = data.message;
+                    if(returnMessage !== 'Not Available anymore' && returnMessage!== 'Error Adding'){
+                        const cartKey = uid + " cart";
+                        let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+                        cart.push(id);
+                        localStorage.setItem(cartKey, JSON.stringify(cart));
+                        addToCart(); // call addToCart function to update cart count
+                    }else{
+                        if(buttonText !== "✓"){
+                            alert(returnMessage);
+                        }
+                    }
                 });
         }
     }

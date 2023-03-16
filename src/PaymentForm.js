@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
 import {getFunctions, httpsCallable} from "firebase/functions";
+import './PaymentStyle.css';
 import Card from "./CardComponent";
 import {initializeApp} from "firebase/app";
 const PaymentForm = (props) => {
@@ -8,7 +9,12 @@ const PaymentForm = (props) => {
     const [processing, setProcessing] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
+    const [total, setTotal] = useState(0); // new state variable to store the total amount
 
+    useEffect(() => {
+        // update the total amount when props change
+        setTotal(1299 * props.cardNum);
+    }, [props.cardNum]);
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -36,17 +42,16 @@ const PaymentForm = (props) => {
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
        // alert('uid:' + localStorage.getItem('uid'));
-        cartExists({  paymentMethod: paymentMethod,'uid': localStorage.getItem('uid'),'currency':'usd','amount':(1200 * props.cardNum)})
+        cartExists({  paymentMethod: paymentMethod,'uid': localStorage.getItem('uid'),'currency':'usd','amount':(1299 * props.cardNum)})
             .then((result) => {
                // alert("Here 2");
                 const data = result.data;
                 if (data.status === 'pass') {
                     alert('Payment Accepted!');
                 } else if (data.status === 'fail') {
-                   // alert('Message:' + data.message)
                     alert("No Items in cart or time limit exceeded(10 minutes)");
                 } else {
-                    alert("Server error:" + JSON.stringify(data.message));
+                    alert("Server error:" + JSON.stringify(data.message.decline_code));
                 }
             }).catch((error) => {
             alert('Client Error: ' + (error.message).toString());
@@ -57,14 +62,22 @@ const PaymentForm = (props) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form id={"paymentMain"} onSubmit={handleSubmit}>
+
+{/*
+                <label htmlFor="total">Total:</label>
+*/}
+            <div id="total">Total:${total/100}</div>
+                <div className={"separator"}></div>
+
+
             <div className="form-group">
-                <label htmlFor="card-element">Credit or debit card</label>
+                <label className={"paymentText"} htmlFor="card-element">Credit or debit card</label>
                 <div id="card-element">
                     <CardElement />
                 </div>
             </div>
-            <button type="submit" disabled={processing}>
+            <button id={"finalPaymentButton"} type="submit" disabled={processing}>
                 {processing ? "Processing..." : "Pay"}
             </button>
             {errorMessage && <div className="error">{errorMessage}</div>}

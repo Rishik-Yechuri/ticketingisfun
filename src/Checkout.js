@@ -124,7 +124,7 @@ function Checkout(props) {
 
 
     return (
-        <div className="checkout-page" style={{visibility: props.visible ? 'visible' : 'hidden'}}>
+        <div className="checkout-page"  style={{visibility: props.visible ? 'visible':'hidden'}}>
             <div className="purchased-cards">
                 <h2 id={"CartText"}>Cart </h2>
                 {cards}

@@ -8,31 +8,49 @@ import TicketScreen from "./TicketScreen";
 import Checkout from "./Checkout";
 import {getFunctions, httpsCallable} from "firebase/functions";
 import Card from "./CardComponent";
+import {getFirestore} from "firebase/firestore";
 
 function App() {
+
     const [logIn, setLogIn] = useState(false);
+    const [ticketIn, setTicketIn] = useState(false);
+
 
     function handleLoggingIn(uid) {
         setUid(uid);
-        setLogIn(true);
         setLoginVisible(false);
+        setTicketIn(true);
+    }
+    function goCheckout(){
+        setCheckoutVisible(true);
+        setTicketIn(false);
     }
 
     const [loginVisible, setLoginVisible] = useState(true);
     const [timesCalled, setTimesCalled] = useState(0);
     const [uid, setUid] = useState(0);
-    const [checkoutVisible,setCheckoutVisible] = useState(false);
+    const [checkoutVisible, setCheckoutVisible] = useState(false);
+  /*  const firebaseConfig = {
+        apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
+        authDomain: "ticketingisfun.firebaseapp.com",
+        projectId: "ticketingisfun",
+        storageBucket: "ticketingisfun.appspot.com",
+        messagingSenderId: "1001052675931",
+        appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
+        measurementId: "G-EXHXNMV7KM"
+    };*/
 
 
-    function createAccount() {
-        setLoginVisible(false);
-    }
+
+
     return (
         <div className={"Main"}>
-            <LoginScreen visibleState={loginVisible} createAccount={createAccount}
-                         onLogIn={handleLoggingIn}></LoginScreen>
-            <TicketScreen checkoutVisible={checkoutVisible} setCheckoutVisible={setCheckoutVisible} setTimeCalled = {setTimesCalled} uid = {uid} loggedIn={logIn} timeCalled={timesCalled}></TicketScreen>
-            <Checkout visible={checkoutVisible}></Checkout>
+            {loginVisible && ( <LoginScreen visibleState={loginVisible}
+                         onLogIn={handleLoggingIn}></LoginScreen>)}
+            {ticketIn && ( <TicketScreen ticketIn={ticketIn} goCheckout={goCheckout} setCheckoutVisible={setCheckoutVisible}
+                          setTimeCalled={setTimesCalled} uid={uid} loggedIn={logIn}
+                          timeCalled={timesCalled}></TicketScreen>)}
+            {checkoutVisible && ( <Checkout visible={checkoutVisible}></Checkout>)}
         </div>
     );
 }

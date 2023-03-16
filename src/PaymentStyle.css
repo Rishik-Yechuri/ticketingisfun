@@ -1,0 +1,38 @@
+#total{
+    display: flex;
+    flex-direction: row;
+    color: whitesmoke;
+    align-items: center;
+    justify-content: center;
+}
+#paymentMain{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-self: center;
+    height: fit-content;
+    margin-bottom: 2em;
+}
+.separator {
+    height: .06em;
+    width: 90%;
+    background-color: #777777;
+    margin-top: .75em;
+    margin-bottom: .75em;
+    align-self: center;
+    justify-self: center;
+}
+.paymentText{
+    color: whitesmoke;
+}
+#finalPaymentButton{
+    width: 12.5em;
+    height: 2.5em;
+    background-color: #5f3e90;
+    outline-style: hidden;
+    border-style: hidden;
+    border-radius: .5em;
+    align-self: center;
+    color: whitesmoke;
+    margin-top: 1em;
+}

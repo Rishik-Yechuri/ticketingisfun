@@ -1,19 +1,18 @@
 .checkout-page {
     display: flex;
     flex-direction: column;
-
+    background-color: #4E4848;
     width: 100%;
-    justify-content: center;
-align-items: center;
+    height: 100%;
+    align-items: center;
+    overflow-y: scroll;
 }
 #CartText{
-    margin-left: 1em;
 }
 .purchased-cards {
     display: flex;
     flex-direction: column;
     justify-self: center;
-    margin-left: 5em;
     margin-bottom: 1em;
     max-width: 15em;
     color: whitesmoke;

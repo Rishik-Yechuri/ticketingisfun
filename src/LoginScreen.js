@@ -31,6 +31,7 @@ function LoginScreen(props) {
 
     function SignInButton() {
         localStorage.setItem("uid",username);
+        //props.visibleState = false;
         // localStorage.
         handleSignUpClick(username);
     }
@@ -42,16 +43,19 @@ function LoginScreen(props) {
     const handleUsername = (event) => {
         setUserName(event.target.value);
     };
-    const [password, setPassword] = useState('');
 
-    const handlePassword = (event) => {
-        setPassword(event.target.value);
-    };
     return (
-        <div className={"Main"} style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}>
-        <div className={"LoginHolder"}>
-            <input  onChange={handleUsername} className={"InputField"} placeholder={"Email"}/>
-            <button onClick={SignInButton} className={"Button"} >Next</button>
+        <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
+            <div id={"everything"}>
+                <div id={"holdPng"}>
+                    <img id={"logoPng"} src={require('./kkdslogo.png')} />
+                    <text className={"eventText"}>Nritya Nirvanam 2023</text>
+                </div>
+                <div className={"LoginHolder"}>
+                    <input  onChange={handleUsername} className={"InputField"} placeholder={"Email"}/>
+                    <button onClick={SignInButton} className={"Button"} >Next</button>
+            </div>
+
         </div>
         </div>
     );

@@ -28,7 +28,7 @@ function TicketScreen(props) {
     };
 
 // Initialize Firebase
-    const [timesCalled, setTimesCalled] = useState(0);
+    const [timesCalled, setTimesCalled] = useState(5);
 
     const app = initializeApp(firebaseConfig);
     const analytics = getAnalytics(app);
@@ -38,8 +38,14 @@ function TicketScreen(props) {
         margin: '0em 0',
     };
     const [cards, setCards] = useState([]);
+    const [cardCount, setCardCount] = useState(0); // add state for cart count
 
     //cards.push(<Card subtitle={"please"} title={"hi"} />);
+    const addToCart = () => {
+       // alert('here:' + cardCount)
+        // increment cart count whenever an item is added to the cart
+        setCardCount(prevCount => prevCount + 1);
+    };
     function createSortedCards(arr, searchQuery) {
         const filteredArr = searchQuery
             ? arr.filter((item) =>
@@ -67,11 +73,14 @@ function TicketScreen(props) {
                 }
             }
         });
-
-        const allCards = sortedArr.map((item) => {
+      // var allCardsTemp = new [];
+      // setCards(allCardsTemp);
+        const allCards = sortedArr.map((item,index) => {
             const first = item.substring(0, 1);
             const second = item.substring(1);
-            return <Card uid={uid} title={first} subtitle={second} />;
+            const key = `${first}${second}`;
+
+            return <Card key={key}  uid={uid} title={first} subtitle={second} addToCart={addToCart} />;
         });
 
         setCards(allCards);
@@ -164,7 +173,8 @@ function TicketScreen(props) {
         setTimesCalled(timesCalled + 1)
     }
     function goToCheckout(){
-        props.setCheckoutVisible(true);
+        props.goCheckout();
+       // props.setCheckoutVisible(true);
     }
     //var uid;// = localStorage.get("uid");
 
@@ -188,12 +198,13 @@ function TicketScreen(props) {
      }*/
 
     return (
-        <div className={"Main"}  style={{visibility: props.loggedIn && !props.checkoutVisible ? 'visible' : 'hidden'}}>
+        <div className={"Main3"} /* style={{visibility: props.ticketIn ? 'visible' : 'hidden'}}*/>
             <div id={"holdPng"}>
                 <img id={"seatingPng"} src={require('./wpac.jpg')} />
             </div>
             <div className={"stickRight"}>
-                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+                <span className="badge">{cardCount}</span>
             </div>
             <div className={"SideBar"}>
                 <input placeholder={"Search(Ex:B-Z, C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>

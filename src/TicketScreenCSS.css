@@ -1,10 +1,14 @@
-.Main{
+.Main3{
+    height: 100%;
+    width: 100%;
     background-color: #4E4848;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: scroll;
-    height: 100vh;
+    height: 100%;
+    width: 100%;
 
 }
 .SideBar{
@@ -13,7 +17,34 @@
     display: flex;
     flex-direction: column;
 }
+/*.stickRight{
+    position: relative;
+    margin-left: auto;
+    width: 8em;
+    justify-content: center;
+    margin-bottom: 1em;
 
+}*/
+.stickRight {
+    margin-left: auto;
+    margin-right: 2em;
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: 1.4em;
+    right: 2em;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    width: 1.5em;
+    height: 1.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .7em;
+}
 .Search{
     width: 90%;
     height: 2em;
@@ -46,13 +77,7 @@
     width: 10em;
     height: 10em;
 }
-.stickRight{
-    display: flex;
-    margin-left: auto;
-    width: 8em;
-    justify-content: center;
-    margin-bottom: 1em;
-}
+
 #cartPng{
     max-height: 2em;
     margin-top: 1em;
