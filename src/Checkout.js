@@ -5,6 +5,8 @@ import {loadStripe} from "@stripe/stripe-js";
 import {Elements, useElements, useStripe} from "@stripe/react-stripe-js";
 import Card from "./CardComponent";
 import PaymentForm from "./PaymentForm";
+import { FaArrowLeft } from "react-icons/fa";
+
 import {initializeApp} from "firebase/app";
 //const promise = loadStripe("pk_test_51MkMPFGrSpioNuBcxC8R6iINnsy6qsTpjCgYEKEVgrK0TuZM60JsZETBSmmkvBbeH1cCikRkpjioCJvw6dYIkkVi00EzlSm3t6");
 
@@ -27,12 +29,16 @@ function Checkout(props) {
         }
     }, [pay]);
 
+    const handleBackClick = () => {
+        props.leaveCheckout();
+        // Handle the back button click event here
+    };
     const handleSubmit = (event) => {
         event.preventDefault();
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
         //alert('uid:' + localStorage.getItem('uid'));
-        cartExists({'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid'),'currency':'usd'})
+        cartExists({'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd'})
             .then((result) => {
                 alert("Here 2");
                 const data = result.data;
@@ -125,6 +131,9 @@ function Checkout(props) {
 
     return (
         <div className="checkout-page"  style={{visibility: props.visible ? 'visible':'hidden'}}>
+            <div id="backCheckout" onClick={handleBackClick}>
+                <FaArrowLeft size={24} />
+            </div>
             <div className="purchased-cards">
                 <h2 id={"CartText"}>Cart </h2>
                 {cards}

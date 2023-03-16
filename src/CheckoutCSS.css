@@ -9,6 +9,12 @@
 }
 #CartText{
 }
+#backCheckout{
+    color: whitesmoke;
+    margin-right: auto;
+    margin-left: 2em;
+    margin-top: 2em;
+}
 .purchased-cards {
     display: flex;
     flex-direction: column;

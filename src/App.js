@@ -25,6 +25,10 @@ function App() {
         setCheckoutVisible(true);
         setTicketIn(false);
     }
+    function leaveCheckout(){
+        setCheckoutVisible(false);
+        setTicketIn(true);
+    }
 
     const [loginVisible, setLoginVisible] = useState(true);
     const [timesCalled, setTimesCalled] = useState(0);
@@ -50,7 +54,7 @@ function App() {
             {ticketIn && ( <TicketScreen ticketIn={ticketIn} goCheckout={goCheckout} setCheckoutVisible={setCheckoutVisible}
                           setTimeCalled={setTimesCalled} uid={uid} loggedIn={logIn}
                           timeCalled={timesCalled}></TicketScreen>)}
-            {checkoutVisible && ( <Checkout visible={checkoutVisible}></Checkout>)}
+            {checkoutVisible && ( <Checkout visible={checkoutVisible} leaveCheckout={leaveCheckout}></Checkout>)}
         </div>
     );
 }

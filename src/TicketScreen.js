@@ -39,7 +39,6 @@ function TicketScreen(props) {
     };
     const [cards, setCards] = useState([]);
     const [cardCount, setCardCount] = useState(0); // add state for cart count
-
     //cards.push(<Card subtitle={"please"} title={"hi"} />);
     const addToCart = () => {
        // alert('here:' + cardCount)
@@ -200,8 +199,10 @@ function TicketScreen(props) {
     return (
         <div className={"Main3"} /* style={{visibility: props.ticketIn ? 'visible' : 'hidden'}}*/>
             <div id={"holdPng"}>
-                <img id={"seatingPng"} src={require('./wpac.jpg')} />
+                <img id={"seatingPng"} src={require('./wpac.jpeg')} />
             </div>
+            <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
+
             <div className={"stickRight"}>
                 <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
                 <span className="badge">{cardCount}</span>

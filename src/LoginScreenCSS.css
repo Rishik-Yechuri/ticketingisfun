@@ -66,6 +66,19 @@
 }
 .eventText{
     color: whitesmoke;
-    font-size: 3.5em;
+    font-size: .8em;
     text-align: center;
+    margin: .75em;
+}
+.titleText{
+    color: whitesmoke;
+    font-size: 2.7em;
+    text-align: center;
+    margin: .75em;
+}
+.subtitleText{
+    color: whitesmoke;
+    font-size: 1.8em;
+    text-align: center;
+    margin: .75em;
 }

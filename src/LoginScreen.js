@@ -31,7 +31,7 @@ function LoginScreen(props) {
     var auth = getAuth();
 
     function SignInButton() {
-        localStorage.setItem("uid", username);
+        localStorage.setItem("uid", username.toLowerCase());
         localStorage.setItem("name",name);
         //props.visibleState = false;
         // localStorage.
@@ -58,7 +58,7 @@ function LoginScreen(props) {
             <div id={"everything"}>
                 <div id={"holdPng"}>
                     <img id={"logoPng"} src={require('./kkdslogo.png')}/>
-                    <text className={"eventText"}>Nritya Nirvanam 2023</text>
+                    <text className={"titleText"}>Nritya Nirvanam 2023</text>
                 </div>
                 <div className={"LoginHolder"}>
                     <input onChange={handleName} className={"InputField"}
