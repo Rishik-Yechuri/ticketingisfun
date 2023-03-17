@@ -124,7 +124,7 @@ function Checkout(props) {
                             allCards.push(newCard);
                         });
                         setCards(allCards);
-                        localStorage.setItem('cardIds',JSON.stringify(ids));
+                       // localStorage.setItem('cardIds',JSON.stringify(ids));
                         //setCardNum(allCards.length);
                     } else if (data.status === 'fail') {
                         //alert("No Items in cart(or 10 minute time limit to buy tickets exceeded,try refeshing)");

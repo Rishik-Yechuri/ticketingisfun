@@ -71,15 +71,6 @@ function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
                 if (data.status === 'pass') {
                     setCardsCall(id);
                     // Remove the card from the list
-                    /*const newCards = [];
-                    alert("cards:" + cards);
-                    for (let i = 0; i < cards.length; i++) {
-                        if (cards[i].id !== id) {
-                            newCards.push(cards[i]);
-                        }
-                    }
-                    setCards(newCards);
-                    setCardNum(0);*/
                 } else {
                     alert("Server error when removing item from cart");
                 }
