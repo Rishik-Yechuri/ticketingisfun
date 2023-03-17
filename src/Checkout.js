@@ -37,13 +37,13 @@ function Checkout(props) {
     };
 
     function setCardsAll(id) {
-        alert("Remove ID:" + id);
+        //alert("Remove ID:" + id);
         const newCards = [];
        // const ids = [];
         // alert("cards:" + localStorage.getItem('cards'));
         // setCards(JSON.parse(localStorage.getItem('cards')));
          const cardTemp = JSON.parse(localStorage.getItem('cardIds'));
-         alert('cardTemp:' + JSON.stringify(cardTemp));
+         //alert('cardTemp:' + JSON.stringify(cardTemp));
         for (let i = 0; i < cardTemp.length; i++) {
            // alert('id:' + id + " cards[" + i + "].id:" + cardTemp.get(i).id);
             if (cardTemp[i] !== id) {
