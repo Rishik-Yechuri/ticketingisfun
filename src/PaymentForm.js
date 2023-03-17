@@ -66,13 +66,14 @@ const PaymentForm = (props) => {
         //alert('name:' + localStorage.getItem('name'));
         //alert('uid:' + localStorage.getItem('uid'));
 
-        alert('payment:' + JSON.stringify(paymentMethod));
+        //alert('payment:' + JSON.stringify(paymentMethod));
          await cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(50 * props.cardNum)})
             .then((result) => {
                // alert("Here 2");
                 const data = result.data;
                 if (data.status === 'pass') {
-                    alert('Payment Accepted!');
+                    props.goToEnd();
+                    //alert('Payment Accepted!');
                 } else if (data.status === 'fail') {
                     alert("No Items in cart or time limit exceeded(10 minutes)");
                 } else {

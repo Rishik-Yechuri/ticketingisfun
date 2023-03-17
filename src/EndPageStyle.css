@@ -1,0 +1,13 @@
+.finalPage{
+    display: flex;
+    flex-direction: column;
+    background-color: #4E4848;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    overflow-y: scroll;
+}
+.finalText{
+    font-size: 1.5em;
+    color: whitesmoke;
+}

@@ -17,23 +17,22 @@ function TicketScreen(props) {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-    const firebaseConfig = {
+   /* const firebaseConfig = {
         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
         authDomain: "ticketingisfun.firebaseapp.com",
         projectId: "ticketingisfun",
         storageBucket: "ticketingisfun.appspot.com",
         messagingSenderId: "1001052675931",
         appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
-        measurementId: "G-EXHXNMV7KM",
-        functionsEmulatorHost: 'localhost:5001'
+        measurementId: "G-EXHXNMV7KM"
     };
-
+*/
 // Initialize Firebase
     const [timesCalled, setTimesCalled] = useState(5);
 
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const functions = getFunctions();
+    //const app = initializeApp();
+    //const analytics = getAnalytics();
+    //const functions = getFunctions();
     const lineStyle = {
         borderBottom: '1px solid #ccc',
         margin: '0em 0',
@@ -46,6 +45,7 @@ function TicketScreen(props) {
         // increment cart count whenever an item is added to the cart
         setCardCount(prevCount => prevCount + 1);
     };
+
     function createSortedCards(arr, searchQuery) {
         const filteredArr = searchQuery
             ? arr.filter((item) =>
@@ -80,7 +80,7 @@ function TicketScreen(props) {
             const second = item.substring(1);
             const key = `${first}${second}`;
 
-            return <Card key={key}  uid={uid} title={first} subtitle={second} addToCart={addToCart} />;
+            return <Card key={key}  setCards={setCards} uid={uid} title={first} subtitle={second} addToCart={addToCart} cards={cards}/>;
         });
 
         setCards(allCards);
@@ -110,7 +110,7 @@ function TicketScreen(props) {
             }
             if (contains) {
                 // alert("here:");
-                const newCard = <Card uid={uid} title={first} subtitle={second}/>;
+                const newCard = <Card setCardNum={setCardCount} setCards={setCards} uid={uid} title={first} subtitle={second} addToCart={addToCart} cards={cards}/>;
                 allCards.push(newCard);
                 // setCards([...cards, newCard]);
                 //}
@@ -135,7 +135,7 @@ function TicketScreen(props) {
     };
 
     var set = [];
-    const db = getFirestore(app);
+    const db = getFirestore();
     var uid;
     useEffect(message => {
         async function pleaseWork() {
@@ -144,16 +144,6 @@ function TicketScreen(props) {
 
             if (docSnap.exists()) {
                 const data = docSnap.data();
-
-                // var tempObj = JSON.stringify(data);
-                //var obj = JSON.parse(tempObj);
-                // alert("Document data:" + data);
-                //for (const key in data){
-                // if(data.hasOwnProperty(key)){
-                //alert("key:" + key);
-                // set.add(key);
-                //}
-                //  }
                 localStorage.setItem("set", JSON.stringify(data));
             } else {
                 // doc.data() will be undefined in this case

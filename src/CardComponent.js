@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import {getFirestore} from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-function Card({addToCart,onRemove, removeEnabled,uid,title, subtitle, id }) {
+function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
     const firebaseConfig = {
         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
         authDomain: "ticketingisfun.firebaseapp.com",
@@ -23,7 +23,7 @@ function Card({addToCart,onRemove, removeEnabled,uid,title, subtitle, id }) {
 
     const app = initializeApp(firebaseConfig);
     const functions = getFunctions(app);
-    const [buttonText, setButtonText] = useState(removeEnabled ? '' : 'Add');
+    const [buttonText, setButtonText] = useState(removeEnabled ? 'Remove' : 'Add');
 
     if(removeEnabled){
         //setButtonText('Remove');
@@ -33,6 +33,7 @@ function Card({addToCart,onRemove, removeEnabled,uid,title, subtitle, id }) {
     async function checkFieldExists() {
         if (removeEnabled) {
             //onRemove();
+            await handleRemove();
         } else {
             //alert("HERE: " + id)
             setButtonText("✓" );
@@ -59,6 +60,32 @@ function Card({addToCart,onRemove, removeEnabled,uid,title, subtitle, id }) {
                     }
                 });
         }
+    }
+    const handleRemove =  () => {
+        //event.preventDefault();
+        const functions =  getFunctions();
+        const removeFromCart =  httpsCallable(functions, 'removeFromCart');
+         removeFromCart({'uid': localStorage.getItem('uid'), 'fieldName': id})
+            .then((result) => {
+                const data = result.data;
+                if (data.status === 'pass') {
+                    setCardsCall(id);
+                    // Remove the card from the list
+                    /*const newCards = [];
+                    alert("cards:" + cards);
+                    for (let i = 0; i < cards.length; i++) {
+                        if (cards[i].id !== id) {
+                            newCards.push(cards[i]);
+                        }
+                    }
+                    setCards(newCards);
+                    setCardNum(0);*/
+                } else {
+                    alert("Server error when removing item from cart");
+                }
+            }).catch((error) => {
+            alert('Client Error: ' + error);
+        });
     }
     return (
         <div className={"TopDiv"} style={{
