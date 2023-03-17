@@ -24,7 +24,8 @@ function TicketScreen(props) {
         storageBucket: "ticketingisfun.appspot.com",
         messagingSenderId: "1001052675931",
         appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
-        measurementId: "G-EXHXNMV7KM"
+        measurementId: "G-EXHXNMV7KM",
+        functionsEmulatorHost: 'localhost:5001'
     };
 
 // Initialize Firebase

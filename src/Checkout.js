@@ -10,7 +10,9 @@ import { FaArrowLeft } from "react-icons/fa";
 import {initializeApp} from "firebase/app";
 //const promise = loadStripe("pk_test_51MkMPFGrSpioNuBcxC8R6iINnsy6qsTpjCgYEKEVgrK0TuZM60JsZETBSmmkvBbeH1cCikRkpjioCJvw6dYIkkVi00EzlSm3t6");
 
+
 const stripePromise = loadStripe('pk_live_51MkMPFGrSpioNuBcs2I3rqZDsMQfayYDS2pCY7OHQ4aqMxMl13Xsu6FsOD6PVDui6BIxoUJ8Npe7ItkkLWtG2BBG00lPMhefzq');
+
 
 function Checkout(props) {
     // Define state for the purchased cards

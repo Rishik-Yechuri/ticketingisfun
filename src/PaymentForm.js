@@ -4,6 +4,8 @@ import {getFunctions, httpsCallable} from "firebase/functions";
 import './PaymentStyle.css';
 import Card from "./CardComponent";
 import {initializeApp} from "firebase/app";
+import {loadStripe} from "@stripe/stripe-js";
+
 const PaymentForm = (props) => {
     const [errorMessage, setErrorMessage] = useState(null);
     const [processing, setProcessing] = useState(false);
@@ -13,7 +15,7 @@ const PaymentForm = (props) => {
 
     useEffect(() => {
         // update the total amount when props change
-        setTotal(1299 * props.cardNum);
+        setTotal(50 * props.cardNum);
     }, [props.cardNum]);
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -25,11 +27,16 @@ const PaymentForm = (props) => {
         }
 
         setProcessing(true);
-
         const { error, paymentMethod } = await stripe.createPaymentMethod({
             type: 'card',
             card: elements.getElement(CardElement),
-            billing_details: {},
+            billing_details: {
+                address:{
+                    line1: event.target.address.value,
+                    city: event.target.city.value,
+                    state: event.target.state.value,
+                }
+            },
         });
 
         if (error) {
@@ -39,10 +46,28 @@ const PaymentForm = (props) => {
             return;
         }
         //alert("cart:" +  paymentMethod);
+      /*  const firebaseConfig = {
+            apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
+            authDomain: "ticketingisfun.firebaseapp.com",
+            projectId: "ticketingisfun",
+            storageBucket: "ticketingisfun.appspot.com",
+            messagingSenderId: "1001052675931",
+            appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
+            measurementId: "G-EXHXNMV7KM",
+            functionsEmulatorHost: 'localhost:5001',
+            functionsEmulatorPort: '5001'
+            /!*functionsEmulatorHost: 'localhost:5001',*!/
+        };
+        const app = initializeApp(firebaseConfig);*/
+        alert("HERE")
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
        // alert('uid:' + localStorage.getItem('uid'));
-        cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(1299 * props.cardNum)})
+        alert('name:' + localStorage.getItem('name'));
+        alert('uid:' + localStorage.getItem('uid'));
+
+        alert('payment:' + JSON.stringify(paymentMethod));
+         await cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(1299 * props.cardNum)})
             .then((result) => {
                // alert("Here 2");
                 const data = result.data;
@@ -51,10 +76,10 @@ const PaymentForm = (props) => {
                 } else if (data.status === 'fail') {
                     alert("No Items in cart or time limit exceeded(10 minutes)");
                 } else {
-                    alert("Server error:" + JSON.stringify(data.message.decline_code));
+                    alert("Server error:" + JSON.stringify(data.message));
                 }
             }).catch((error) => {
-            alert('Client Error: ' + (error.message).toString());
+            alert('Client Error: ' + (error).toString());
         })
             .finally(() => {
                 setProcessing(false);
@@ -77,6 +102,27 @@ const PaymentForm = (props) => {
                     <CardElement />
                 </div>
             </div>
+            <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input type="text" id="name" name="name" required />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <input type="text" id="address" name="address" required />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="city">City</label>
+                <input type="text" id="city" name="city" required />
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="state">State</label>
+                <input type="text" id="state" name="state" required />
+            </div>
+
+
             <button id={"finalPaymentButton"} type="submit" disabled={processing}>
                 {processing ? "Processing..." : "Pay"}
             </button>
