@@ -199,7 +199,7 @@ function TicketScreen(props) {
                 <span className="badge">{cardCount}</span>
             </div>
             <div className={"SideBar"}>
-                <input placeholder={"Search(Ex:B-Z, C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
+                <input placeholder={"Search(Ex:C or C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
                 <div id={"holdCards"}>
                     {cards}
                 </div>
