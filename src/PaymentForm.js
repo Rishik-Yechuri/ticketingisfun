@@ -59,12 +59,12 @@ const PaymentForm = (props) => {
             /!*functionsEmulatorHost: 'localhost:5001',*!/
         };
         const app = initializeApp(firebaseConfig);*/
-        alert("HERE")
+        //alert("HERE")
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'prayToGod');
        // alert('uid:' + localStorage.getItem('uid'));
-        alert('name:' + localStorage.getItem('name'));
-        alert('uid:' + localStorage.getItem('uid'));
+        //alert('name:' + localStorage.getItem('name'));
+        //alert('uid:' + localStorage.getItem('uid'));
 
         alert('payment:' + JSON.stringify(paymentMethod));
          await cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(50 * props.cardNum)})
