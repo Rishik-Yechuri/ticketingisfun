@@ -87,11 +87,13 @@ const PaymentForm = (props) => {
     };
 
     return (
+
         <form id={"paymentMain"} onSubmit={handleSubmit}>
 
 {/*
                 <label htmlFor="total">Total:</label>
 */}
+
             <div id="total">Total:${total/100}</div>
                 <div className={"separator"}></div>
 

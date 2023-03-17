@@ -9,6 +9,10 @@
 }
 #CartText{
 }
+#billingContact{
+    color: whitesmoke;
+    margin-top: 0.5em;
+}
 #backCheckout{
     color: whitesmoke;
     margin-right: auto;

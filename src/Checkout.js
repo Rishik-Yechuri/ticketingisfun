@@ -132,7 +132,9 @@ function Checkout(props) {
 
 
     return (
+
         <div className="checkout-page"  style={{visibility: props.visible ? 'visible':'hidden'}}>
+            <text id={"billingContact"}>For any billing issues please contact kalamandapamdanceschool@gmail.com</text>
             <div id="backCheckout" onClick={handleBackClick}>
                 <FaArrowLeft size={24} />
             </div>
