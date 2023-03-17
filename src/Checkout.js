@@ -58,11 +58,10 @@ function Checkout(props) {
             }
         }
         setCards(newCards);
-        localStorage.setItem('cardIds',JSON.stringify(newCards));
+        //localStorage.setItem('cardIds',JSON.stringify(newCards));
         setCardNum(newCards.length);
     }
     useEffect(() => {
-        //alert("Here:" + props.visible)
         if (props.visible === true) {
             const functions = getFunctions();
             const cartExists = httpsCallable(functions, 'cartExists');
@@ -91,7 +90,7 @@ function Checkout(props) {
                         });
                        // alert("setcards:" + JSON.stringify(ids))
                         setCards(allCards);
-                        localStorage.setItem('cardIds',JSON.stringify(ids));
+                        //localStorage.setItem('cardIds',JSON.stringify(ids));
                         setCardNum(allCards.length);
                     } else if (data.status === 'fail') {
                         alert("No Items in cart(or 10 minute time limit to buy tickets exceeded,try refreshing)");
@@ -139,7 +138,6 @@ function Checkout(props) {
 
 
     return (
-
         <div className="checkout-page" style={{visibility: props.visible ? 'visible' : 'hidden'}}>
             <text id={"billingContact"}>For any billing issues please contact kalamandapamdanceschool@gmail.com</text>
             <div id="backCheckout" onClick={handleBackClick}>

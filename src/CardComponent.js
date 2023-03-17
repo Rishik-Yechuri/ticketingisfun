@@ -49,9 +49,9 @@ function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
                     var returnMessage = data.message;
                     if(returnMessage !== 'Not Available anymore' && returnMessage!== 'Error Adding'){
                         const cartKey = uid + " cart";
-                        let cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+                        let cart = /*JSON.parse(localStorage.getItem(cartKey)) || */[];
                         cart.push(id);
-                        localStorage.setItem(cartKey, JSON.stringify(cart));
+                        //localStorage.setItem(cartKey, JSON.stringify(cart));
                         addToCart(); // call addToCart function to update cart count
                     }else{
                         if(buttonText !== "✓"){
@@ -84,7 +84,7 @@ function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
                     alert("Server error when removing item from cart");
                 }
             }).catch((error) => {
-            alert('Client Error: ' + error);
+            //alert('Client Error: ' + error);
         });
     }
     return (
