@@ -177,7 +177,8 @@ function TicketScreen(props) {
                         setCardCount(inCart.length);
                     }
                 }else{
-                    alert("failed update")
+                    setCardCount(0);
+                    //alert("failed update")
                 }
             }).catch((error) => {
             alert('Client Error: ' + error.message);
