@@ -8,6 +8,27 @@
     overflow-y: scroll;
 }
 .finalText{
+    text-align: center;
+    margin-top: 1em;
     font-size: 1.5em;
     color: whitesmoke;
+
+}
+.resumeButton{
+    margin-top: auto;
+    margin-bottom: 2em;
+    font-weight: bold;
+    color: ghostwhite;
+    background-color: #e6bf12;
+    padding: 1em;
+    border-style: hidden;
+    border-radius: .45em;
+    transition: background-color 0.5s;
+
+}
+.resumeButton:hover{
+
+    background-color: goldenrod;
+
+
 }

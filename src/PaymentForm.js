@@ -1,10 +1,20 @@
 import React, {useEffect, useState} from "react";
-import {CardElement, useStripe, useElements} from "@stripe/react-stripe-js";
+import {
+    CardElement,
+    useStripe,
+    useElements,
+    CardNumberElement,
+    CardExpiryElement,
+    CardCvcElement,
+} from "@stripe/react-stripe-js";
 import {getFunctions, httpsCallable} from "firebase/functions";
 import './PaymentStyle.css';
 import Card from "./CardComponent";
 import {initializeApp} from "firebase/app";
 import {loadStripe} from "@stripe/stripe-js";
+import * as PropTypes from "prop-types";
+
+
 
 const PaymentForm = (props) => {
     const [errorMessage, setErrorMessage] = useState(null);
@@ -12,6 +22,7 @@ const PaymentForm = (props) => {
     const stripe = useStripe();
     const elements = useElements();
     const [total, setTotal] = useState(0); // new state variable to store the total amount
+
 
     useEffect(() => {
         // update the total amount when props change
@@ -100,10 +111,30 @@ const PaymentForm = (props) => {
 
 
             <div className="form-group">
+{/*
                 <label className={"paymentText"} htmlFor="card-element">Credit or debit card</label>
-                <div id="card-element">
-                    <CardElement />
+*/}
+                <div id="card-element" >
+                    <CardElement
+                        options={{
+                            style: {
+                                base: {
+                                    fontSize: '1em',
+                                    color: 'white',
+                                    '::placeholder': {
+                                        color: '#aab7c4',
+                                    },
+                                },
+                                invalid: {
+                                    color: '#dc3545',
+                                },
+                            },
+                            hidePostalCode: false, // optional
+                        }}
+
+                    />
                 </div>
+
             </div>
             <div className="form-group2">
                 <input className={'paymentAddition'} type="text" id="name" name="name" required placeholder={"Name"}/>
@@ -127,6 +158,7 @@ const PaymentForm = (props) => {
             </button>
             {errorMessage && <div className="error">{errorMessage}</div>}
         </form>
+
     );
 };
 export default PaymentForm;

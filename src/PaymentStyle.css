@@ -15,8 +15,38 @@
     margin-bottom: 2em;
     justify-content: center;
 }
+#card-element {
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.StripeElement {
+    height: 40px;
+    padding-left: .5em;
+    padding-right: .5em;
+    padding-top: 1.2em;
+    font-size: 1em;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    color: whitesmoke;
+    border-radius: 5px;
+
+}
+.card-element .StripeElement:nth-child(1) {
+    margin-right: 100px;
+}
+.StripeElement--focus {
+    border-color: #5f3e90;
+
+}
+
+.StripeElement--invalid {
+    border-color: #dc3545;
+    box-shadow: none;
+}
 
 .form-group2 {
+
     width: 100%;
     color: whitesmoke;
     margin-top: .75em;
@@ -28,12 +58,14 @@
 }
 .paymentAddition{
     border-radius: 1em;
-    outline-style: hidden;
+    outline-style: none;
     border-style: hidden;
-    height: 1.75em;
+    height: 3.75em;
+    width: 93%;
     background-color: gray;
     color: whitesmoke;
 }
+
 .paymentAddition::placeholder {
     color: #CCCCCC;
 }
