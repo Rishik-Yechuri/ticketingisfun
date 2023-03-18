@@ -67,7 +67,7 @@ const PaymentForm = (props) => {
         //alert('uid:' + localStorage.getItem('uid'));
 
         //alert('payment:' + JSON.stringify(paymentMethod));
-         await cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(50 * props.cardNum)})
+         await cartExists({  paymentMethod: paymentMethod,'name':localStorage.getItem('name'),'uid': localStorage.getItem('uid').toLowerCase(),'currency':'usd','amount':(1299 * props.cardNum)})
             .then((result) => {
                // alert("Here 2");
                 const data = result.data;
