@@ -42,7 +42,7 @@ function Checkout(props) {
        // const ids = [];
         // alert("cards:" + localStorage.getItem('cards'));
         // setCards(JSON.parse(localStorage.getItem('cards')));
-         const cardTemp = JSON.parse(localStorage.getItem('cardIds'));
+         const cardTemp =[]; //JSON.parse(localStorage.getItem('cardIds'));
          //alert('cardTemp:' + JSON.stringify(cardTemp));
         for (let i = 0; i < cardTemp.length; i++) {
            // alert('id:' + id + " cards[" + i + "].id:" + cardTemp.get(i).id);
@@ -102,7 +102,7 @@ function Checkout(props) {
             });
             //Get bought
             // const functions = getFunctions();
-            const boughtExists = httpsCallable(functions, 'boughtExists');
+           /* const boughtExists = httpsCallable(functions, 'boughtExists');
             //alert('uid:' + localStorage.getItem('uid'));
             boughtExists({'uid': localStorage.getItem('uid')})
                 .then((result) => {
@@ -131,7 +131,7 @@ function Checkout(props) {
                     } else {
                        // alert("Server error when getting purchased items");
                     }
-                });
+                });*/
         }
 
     }, [props.visible]);
