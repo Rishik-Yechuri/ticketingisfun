@@ -15,7 +15,7 @@ const PaymentForm = (props) => {
 
     useEffect(() => {
         // update the total amount when props change
-        setTotal(50 * props.cardNum);
+        setTotal(1299 * props.cardNum);
     }, [props.cardNum]);
     const handleSubmit = async (event) => {
         event.preventDefault();
