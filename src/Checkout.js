@@ -16,6 +16,7 @@ const stripePromise = loadStripe('pk_live_51MkMPFGrSpioNuBcs2I3rqZDsMQfayYDS2pCY
 
 function Checkout(props) {
     // Define state for the purchased cards
+    const [newCards, setNewCards] = useState(0);
     const [pay, setPay] = useState(0);
     const [event, setEvent] = useState(null);
     const [cards, setCards] = useState([]);
@@ -37,29 +38,8 @@ function Checkout(props) {
     };
 
     function setCardsAll(id) {
-        //alert("Remove ID:" + id);
-        const newCards = [];
-       // const ids = [];
-        // alert("cards:" + localStorage.getItem('cards'));
-        // setCards(JSON.parse(localStorage.getItem('cards')));
-         const cardTemp =[]; //JSON.parse(localStorage.getItem('cardIds'));
-         //alert('cardTemp:' + JSON.stringify(cardTemp));
-        for (let i = 0; i < cardTemp.length; i++) {
-           // alert('id:' + id + " cards[" + i + "].id:" + cardTemp.get(i).id);
-            if (cardTemp[i] !== id) {
-                const first = cardTemp[i].substring(0, 1);
-                const second = cardTemp[i].substring(1);
-                const key = `${first}${second}`;
-
-                //alert('cardTemp[i]:' + cardTemp[i] + " id:" + id);
-                newCards.push(<Card setCardsCall={setCardsAll} removeEnabled={true}
-                                    uid={localStorage.getItem('uid')} title={first}
-                                    subtitle={second} id={cardTemp[i]}/>);
-            }
-        }
-        setCards(newCards);
-        //localStorage.setItem('cardIds',JSON.stringify(newCards));
-        setCardNum(newCards.length);
+        //alert("UP HERE")
+        setNewCards(newCards+1);
     }
     useEffect(() => {
         if (props.visible === true) {
@@ -68,22 +48,22 @@ function Checkout(props) {
             //alert('uid:' + localStorage.getItem('uid'));
             cartExists({'uid': localStorage.getItem('uid')})
                 .then((result) => {
-                    //alert("Here 2");
+                  //  alert("Here 2");
                     const data = result.data;
                     if (data.status === 'pass') {
                         //Display products
                         var inCart = data.message.split(',');
                         const allCards = [];
-                        const ids = [];
-                        //alert('inCart:' + inCart);
+                       // const ids = [];
+                       // alert('inCart:' + inCart);
                         inCart.forEach((value) => {
                             var first = value.substring(0, 1);
                             var second = value.substring(1);
                             if (first.length > 0 && second.length > 0) {
-                                const newCard = <Card setCardsCall={setCardsAll} removeEnabled={true}
+                                const newCard = <Card setNewCards={setNewCards} newCards={newCards} setCardsCall={setCardsAll} removeEnabled={true}
                                                       uid={localStorage.getItem('uid')} title={first}
                                                       subtitle={second} id={value}/>;
-                                ids.push(value);
+                                //ids.push(value);
                                 allCards.push(newCard);
                             }
 
@@ -100,41 +80,9 @@ function Checkout(props) {
                 }).catch((error) => {
                 alert('Client Error: ' + error.message);
             });
-            //Get bought
-            // const functions = getFunctions();
-           /* const boughtExists = httpsCallable(functions, 'boughtExists');
-            //alert('uid:' + localStorage.getItem('uid'));
-            boughtExists({'uid': localStorage.getItem('uid')})
-                .then((result) => {
-                    //alert("Here 2");
-                    const data = result.data;
-                    if (data.status === 'pass') {
-                        //Display products
-                        var inCart = data.message.split(',');
-                        const allCards = [];
-                        const ids = [];
-                        //alert('inCart:' + inCart);
-                        inCart.forEach((value) => {
-                            var first = value.substring(0, 1);
-                            var second = value.substring(1);
-                            const newCard = <Card setCardsCall={setCardsAll} set={cards} removeEnabled={true}
-                                                  uid={localStorage.getItem('uid')} title={first}
-                                                  subtitle={second} id={value}/>;
-                            ids.push(value);
-                            allCards.push(newCard);
-                        });
-                        setCards(allCards);
-                       // localStorage.setItem('cardIds',JSON.stringify(ids));
-                        //setCardNum(allCards.length);
-                    } else if (data.status === 'fail') {
-                        //alert("No Items in cart(or 10 minute time limit to buy tickets exceeded,try refeshing)");
-                    } else {
-                       // alert("Server error when getting purchased items");
-                    }
-                });*/
         }
 
-    }, [props.visible]);
+    }, [props.visible,newCards]);
 
 
     return (

@@ -5,7 +5,7 @@ import 'firebase/firestore';
 import {getFirestore} from "firebase/firestore";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
-function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
+function Card({newCards,setNewCards,addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
     const firebaseConfig = {
         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
         authDomain: "ticketingisfun.firebaseapp.com",
@@ -25,13 +25,12 @@ function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
     const functions = getFunctions(app);
     const [buttonText, setButtonText] = useState(removeEnabled ? 'Remove' : 'Add');
 
-    if(removeEnabled){
-        //setButtonText('Remove');
-    }
     const db = getFirestore(app);
 
     async function checkFieldExists() {
+       // alert("checkFieldExists")
         if (removeEnabled) {
+           // alert("remove enabled")
             //onRemove();
             await handleRemove();
         } else {
@@ -62,17 +61,17 @@ function Card({addToCart,removeEnabled,uid,title, subtitle, id,setCardsCall }) {
         }
     }
     const handleRemove =  () => {
-        //event.preventDefault();
         const functions =  getFunctions();
         const removeFromCart =  httpsCallable(functions, 'removeFromCart');
-         removeFromCart({'uid': localStorage.getItem('uid'), 'fieldName': id})
+        removeFromCart({'uid': localStorage.getItem('uid'), 'fieldName': id})
             .then((result) => {
                 const data = result.data;
                 if (data.status === 'pass') {
-                    setCardsCall(id);
+                   // alert("Handle remove");
+                    setNewCards(newCards+1);
                     // Remove the card from the list
                 } else {
-                    alert("Server error when removing item from cart");
+                    alert("Error removing(Session may have timed out,refresh)");
                 }
             }).catch((error) => {
             //alert('Client Error: ' + error);
