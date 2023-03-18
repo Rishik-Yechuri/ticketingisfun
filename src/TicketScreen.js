@@ -4,7 +4,7 @@ import './TicketScreenCSS.css';
 import Card from "./CardComponent";
 import {doc, getFirestore, getDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getFunctions, httpsCallable} from "firebase/functions";
 
 //import firebase from 'firebase/app';
@@ -41,8 +41,6 @@ function TicketScreen(props) {
     const [cardCount, setCardCount] = useState(0); // add state for cart count
     //cards.push(<Card subtitle={"please"} title={"hi"} />);
     const addToCart = () => {
-       // alert('here:' + cardCount)
-        // increment cart count whenever an item is added to the cart
         setCardCount(prevCount => prevCount + 1);
     };
 
@@ -122,15 +120,10 @@ function TicketScreen(props) {
                 if (tempArr.hasOwnProperty(key)) {
                     if (key.startsWith(searchQuery)) {
                         arrToPass.push(key);
-                        /*first = key.substring(0, 1);
-                        second = key.substring(1);
-                        const newCard = <Card uid={uid} title={first} subtitle={second}/>;
-                        allCards.push(newCard);*/
                     }
                 }
             }
             createSortedCards(arrToPass,searchQuery);
-            //setCards(allCards);
         }
     };
 
@@ -166,26 +159,30 @@ function TicketScreen(props) {
         props.goCheckout();
        // props.setCheckoutVisible(true);
     }
-    //var uid;// = localStorage.get("uid");
-
-    // alert("UID:" + uid);
-
-
-    //const [cards, setCards] = useState(['card1', 'card2', 'card3']);
-
-
-    /* const cardComponents = [];
-
-     for (let i = 1; i <= 3; i++) {
-         const title = `Card ${i}`;
-         const subtitle = `Subtitle ${i}`;
-         const key = `card-${i}`;
-
-         cardComponents.push(<Card key={key} title={title} subtitle={subtitle}/>);
-         if (i != 3) {
-             cardComponents.push(<div style={lineStyle}></div>)
-         }
-     }*/
+    useEffect(() => {
+        const functions = getFunctions();
+        const cartExists = httpsCallable(functions, 'cartExists');
+        //alert("HERE")
+        cartExists({'uid': localStorage.getItem('uid')})
+            .then((result) => {
+                //  alert("Here 2");
+                const data = result.data;
+                //alert('status:' + data.status);
+                if (data.status === 'pass') {
+                    if(data.message.length <=0){
+                        setCardCount(0);
+                    }else{
+                        var inCart = data.message.split(',');
+                       // alert('inCart:' + JSON.stringify(inCart) + " len:" + inCart.length);
+                        setCardCount(inCart.length);
+                    }
+                }else{
+                    alert("failed update")
+                }
+            }).catch((error) => {
+            alert('Client Error: ' + error.message);
+        });
+    }, [props.ticketIn]);
 
     return (
         <div className={"Main3"} /* style={{visibility: props.ticketIn ? 'visible' : 'hidden'}}*/>
