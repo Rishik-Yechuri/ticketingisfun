@@ -4,9 +4,11 @@ import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
 import {useState} from 'react';
 import firebase from 'firebase/app';
 import {Link} from 'react-router-dom';
+import validator from 'validator';
 
 
 import './LoginScreenCSS.css';
+import {getFunctions, httpsCallable} from "firebase/functions";
 
 function LoginScreen(props) {
 
@@ -33,11 +35,17 @@ function LoginScreen(props) {
     var auth = getAuth();
 
     function SignInButton() {
+       var splitEmail = username.toLowerCase().split("@")[1].split(".")[1];
+       if(!(splitEmail === 'com' || splitEmail === 'net' || splitEmail === 'org' || splitEmail === 'us')){
+           alert('Email:' + username + ' might not exist');
+       }
         localStorage.setItem("uid", username.toLowerCase());
-        localStorage.setItem("name",name);
+        localStorage.setItem("name", name);
         //props.visibleState = false;
         // localStorage.
-        handleSignUpClick(username);
+        handleSignUpClick();
+
+
     }
 
     function handleSignUpClick() {
@@ -59,7 +67,7 @@ function LoginScreen(props) {
         <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
             <div id={"everything"}>
                 <div id={"holdPng"}>
-{/*
+                    {/*
                     <img id={"logoPng"} src={require('./kkdslogo.png')}/>
 */}
                     <img id={"eventPng"} src={require('./eventinfo.png')}/>
@@ -70,11 +78,12 @@ function LoginScreen(props) {
                     <text className={"eventText"}>Wagner performing arts center | March 26th, seating starts at 3PM | Monroe,WA</text>*/}
                 </div>
                 <div className={"LoginHolder"}>
-                    <input onChange={handleName} className={"InputField"}
-                           placeholder={"Full Name"}/>
-                    <input onChange={handleUsername} className={"InputField"}
-                           placeholder={"Email(Tickets will be sent here)"}/>
-                    <button onClick={SignInButton} className={"Button"}>Next</button>
+                    <form className="LoginHolder" onSubmit={SignInButton}>
+                        <input onChange={handleName} className="InputField" placeholder="Full Name" required/>
+                        <input onChange={handleUsername} className="InputField"
+                               placeholder="Email (Tickets will be sent here)" type="email" required/>
+                        <button type="submit" className="Button">Next</button>
+                    </form>
                 </div>
 
             </div>
