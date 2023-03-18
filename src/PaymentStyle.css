@@ -1,17 +1,41 @@
-#total{
+#total {
     display: flex;
     flex-direction: row;
     color: whitesmoke;
     align-items: center;
     justify-content: center;
 }
-#paymentMain{
+
+#paymentMain {
     display: flex;
     flex-direction: column;
     align-self: center;
     justify-self: center;
     height: fit-content;
     margin-bottom: 2em;
+    justify-content: center;
+}
+
+.form-group2 {
+    width: 100%;
+    color: whitesmoke;
+    margin-top: .75em;
+    margin-bottom: .75em;
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+}
+.paymentAddition{
+    border-radius: 1em;
+    outline-style: hidden;
+    border-style: hidden;
+    height: 1.75em;
+    background-color: gray;
+    color: whitesmoke;
+}
+.paymentAddition::placeholder {
+    color: #CCCCCC;
 }
 .separator {
     height: .06em;
@@ -22,10 +46,12 @@
     align-self: center;
     justify-self: center;
 }
-.paymentText{
+
+.paymentText {
     color: whitesmoke;
 }
-#finalPaymentButton{
+
+#finalPaymentButton {
     width: 12.5em;
     height: 2.5em;
     background-color: #5f3e90;

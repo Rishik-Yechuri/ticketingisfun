@@ -105,24 +105,20 @@ const PaymentForm = (props) => {
                     <CardElement />
                 </div>
             </div>
-            <div className="form-group">
-                <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" required />
+            <div className="form-group2">
+                <input className={'paymentAddition'} type="text" id="name" name="name" required placeholder={"Name"}/>
             </div>
 
-            <div className="form-group">
-                <label htmlFor="address">Address</label>
-                <input type="text" id="address" name="address" required />
+            <div className="form-group2">
+                <input className={'paymentAddition'} type="text" id="address" name="address" required placeholder={"Address"} />
             </div>
 
-            <div className="form-group">
-                <label htmlFor="city">City</label>
-                <input type="text" id="city" name="city" required />
+            <div className="form-group2">
+                <input className={'paymentAddition'} type="text" id="city" name="city" required placeholder={"City"}/>
             </div>
 
-            <div className="form-group">
-                <label htmlFor="state">State</label>
-                <input type="text" id="state" name="state" required />
+            <div className="form-group2">
+                <input className={'paymentAddition'} type="text" id="state" name="state" required placeholder={"State"}/>
             </div>
 
 
