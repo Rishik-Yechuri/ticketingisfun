@@ -188,7 +188,7 @@ function TicketScreen(props) {
     return (
         <div className={"Main3"} /* style={{visibility: props.ticketIn ? 'visible' : 'hidden'}}*/>
             <div id={"holdPng"}>
-                <img id={"seatingPng"} src={require('./wpac.jpeg')} />
+                <img id={"seatingPng"} src={require('./wpac.png')} />
             </div>
             <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
 

@@ -66,12 +66,13 @@
 
 #holdPng{
     display: flex;
-    justify-content: center;
     align-items: center;
+    max-height: fit-content;
 }
 #seatingPng{
-    width: 100%;
+    width: 90%;
     max-width: 100%;
+    max-height: 100vh;
 }
 .Map{
     width: 10em;
