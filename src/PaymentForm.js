@@ -91,7 +91,7 @@ const PaymentForm = (props) => {
                     alert("Server error:" + JSON.stringify(data.message));
                 }
             }).catch((error) => {
-            alert('Client Error: ' + (error).toString());
+            alert('Client Error(payment): ' + (error).toString());
         })
             .finally(() => {
                 setProcessing(false);
