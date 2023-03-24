@@ -6,6 +6,10 @@ import {doc, getFirestore, getDoc} from "firebase/firestore";
 import {getAuth, createUserWithEmailAndPassword} from "firebase/auth";
 import React, {useEffect, useState} from "react";
 import {getFunctions, httpsCallable} from "firebase/functions";
+import Draggable from "react-draggable";
+import {TransformWrapper, TransformComponent} from 'react-zoom-pan-pinch';
+import PanZoom from 'react-easy-panzoom';
+
 
 //import firebase from 'firebase/app';
 
@@ -17,16 +21,16 @@ function TicketScreen(props) {
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-   /* const firebaseConfig = {
-        apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
-        authDomain: "ticketingisfun.firebaseapp.com",
-        projectId: "ticketingisfun",
-        storageBucket: "ticketingisfun.appspot.com",
-        messagingSenderId: "1001052675931",
-        appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
-        measurementId: "G-EXHXNMV7KM"
-    };
-*/
+    /* const firebaseConfig = {
+         apiKey: "AIzaSyDXselQUENle1wroLiPqMGAEbK7svEWZAY",
+         authDomain: "ticketingisfun.firebaseapp.com",
+         projectId: "ticketingisfun",
+         storageBucket: "ticketingisfun.appspot.com",
+         messagingSenderId: "1001052675931",
+         appId: "1:1001052675931:web:c8021c0285db0a70cd847e",
+         measurementId: "G-EXHXNMV7KM"
+     };
+ */
 // Initialize Firebase
     const [timesCalled, setTimesCalled] = useState(5);
 
@@ -39,7 +43,9 @@ function TicketScreen(props) {
     };
     const [cards, setCards] = useState([]);
     const [cardCount, setCardCount] = useState(0); // add state for cart count
-    //cards.push(<Card subtitle={"please"} title={"hi"} />);
+    const [inCart, setInCart] = useState([]);
+    const [data, setData] = useState([]);
+
     const addToCart = () => {
         setCardCount(prevCount => prevCount + 1);
     };
@@ -71,14 +77,15 @@ function TicketScreen(props) {
                 }
             }
         });
-      // var allCardsTemp = new [];
-      // setCards(allCardsTemp);
-        const allCards = sortedArr.map((item,index) => {
+        // var allCardsTemp = new [];
+        // setCards(allCardsTemp);
+        const allCards = sortedArr.map((item, index) => {
             const first = item.substring(0, 1);
             const second = item.substring(1);
             const key = `${first}${second}`;
 
-            return <Card key={key}  setCards={setCards} uid={uid} title={first} subtitle={second} addToCart={addToCart} cards={cards}/>;
+            return <Card key={key} setCards={setCards} uid={uid} title={first} subtitle={second} addToCart={addToCart}
+                         cards={cards}/>;
         });
 
         setCards(allCards);
@@ -100,21 +107,22 @@ function TicketScreen(props) {
         //var searchVal = searchQuery;
         let allCards = [];
         if (searchQuery.length <= 0) {
-                createSortedCards(arr,null);
-        } else if(searchQuery.length > 1){
+            createSortedCards(arr, null);
+        } else if (searchQuery.length > 1) {
             var contains = false;
             if (arr.includes(searchQuery)) {
                 contains = true;
             }
             if (contains) {
                 // alert("here:");
-                const newCard = <Card setCardNum={setCardCount} setCards={setCards} uid={uid} title={first} subtitle={second} addToCart={addToCart} cards={cards}/>;
+                const newCard = <Card setCardNum={setCardCount} setCards={setCards} uid={uid} title={first}
+                                      subtitle={second} addToCart={addToCart} cards={cards}/>;
                 allCards.push(newCard);
                 // setCards([...cards, newCard]);
                 //}
             }
             setCards(allCards);
-        }else{
+        } else {
             var arrToPass = [];
             for (const key in tempArr) {
                 if (tempArr.hasOwnProperty(key)) {
@@ -123,7 +131,7 @@ function TicketScreen(props) {
                     }
                 }
             }
-            createSortedCards(arrToPass,searchQuery);
+            createSortedCards(arrToPass, searchQuery);
         }
     };
 
@@ -155,11 +163,177 @@ function TicketScreen(props) {
     function timesUp() {
         setTimesCalled(timesCalled + 1)
     }
-    function goToCheckout(){
+
+    function goToCheckout() {
         props.goCheckout();
-       // props.setCheckoutVisible(true);
+        // props.setCheckoutVisible(true);
     }
+
+    function loadSeating() {
+        const seatingMain = document.getElementById("seatingMain");
+        seatingMain.innerHTML = "";
+        const alphabet = "XWVUTSRPONMLKJHGFEDCB";
+        const noLeft = "X";
+        const soundBoothRows = "XWV";
+
+
+        const soundBooth = document.createElement("div");
+        soundBooth.id = "soundBooth";
+        soundBooth.className = "soundBooth";
+        soundBooth.style.position = "absolute";
+        soundBooth.style.left = "calc(50% - 14 * 1em)";
+        soundBooth.style.backgroundColor = 'gray'; // Change to the desired background color
+        soundBooth.style.width = "calc(14 * 2em)";
+        soundBooth.style.height = "calc(3 * 2em + 2 * 0.25em)"; // Assuming each row has a height of 2em and 0.1em margin
+
+        const wheelChairText = document.createTextNode("Wheelchair\nArea");
+        const soundBoothText = document.createTextNode("Sound\nBooth")
+        const wheelchairSpan = document.createElement('span');
+        const soundBoothSpan = document.createElement('span');
+
+        wheelchairSpan.className = 'soundBoothText';
+        wheelchairSpan.appendChild(wheelChairText);
+        soundBoothSpan.className = 'soundBoothText2';
+        soundBoothSpan.appendChild(soundBoothText);
+        //Add it to Sound Booth
+        soundBooth.appendChild(wheelchairSpan);
+        const thinLine = document.createElement("div");
+        thinLine.className = "thinLine";
+        soundBooth.appendChild(thinLine)
+        soundBooth.appendChild(soundBoothSpan);
+        for (var y = 0; y < alphabet.length; y++) {
+            var currRow = alphabet.charAt(y);
+            var element = document.createElement("div");
+            element.id = "wideDiv" + currRow;
+            element.className = "wideDiv";
+            element.style.width = 'wrap-content';
+            const seatConfig = getSeatConfig(currRow);
+            // Left side
+            if (currRow !== noLeft) {
+                for (var x = seatConfig.leftMax; x >= 2; x -= 2) {
+                    addSeat(currRow, x, element);
+                }
+            } else {
+                for (var x = 16; x >= 2; x -= 2) {
+                    addFakeSeat(element);
+                }
+            }
+
+            // Row label
+            /*const leftRow = document.createTextNode(currRow);
+            leftRow.className ="wideDiv";
+            element.appendChild(leftRow);*/
+            // Row label
+            const leftRow = document.createTextNode(currRow);
+            const leftRowSpan = document.createElement('span');
+            leftRowSpan.className = 'rowText';
+            leftRowSpan.appendChild(leftRow);
+            element.appendChild(leftRowSpan);
+
+            // Center seats
+            if (!soundBoothRows.includes(currRow)) {
+                for (var x = 101; x <= 113; x++) {
+                    addSeat(currRow, x, element);
+                }
+            } else {
+                for (var x = 101; x <= 113; x++) {
+                    addFakeSeat(element);
+                }
+            }
+            /* const middleRow = document.createTextNode(currRow);
+             element.appendChild(middleRow);*/
+            const middleRow = document.createTextNode(currRow);
+            const middleRowSpan = document.createElement('span');
+            middleRowSpan.className = 'rowText';
+            middleRowSpan.appendChild(middleRow);
+            element.appendChild(middleRowSpan);
+            // Row label
+
+            // Right side
+            for (var x = 1; x <= seatConfig.rightMax; x += 2) {
+                addSeat(currRow, x, element);
+            }
+
+            seatingMain.appendChild(element);
+
+            if (currRow === "X") {
+                seatingMain.appendChild(soundBooth);
+            }
+        }
+        loadExisting().then(r => {
+            //alert("HERE");
+        });
+    }
+
+    async function loadExisting() {
+        //await sleep(1000);
+        var tempArr = JSON.parse(localStorage.getItem('data'));
+        for (const key in tempArr) {
+            //alert("key:" + key);
+            //   arr.push(key);
+            var firstPart = key.substring(0, 1);
+            var secondPart = key.substring(1);
+            const seatDiv = document.getElementById("innerCell" + firstPart + "X" + secondPart);
+            //alert("key:" + key);
+            seatDiv.style.backgroundColor = 'whitesmoke';
+        }
+    }
+
+    function addSeat(row, seatNumber, parentElement) {
+        var insideElement = document.createElement("div");
+        insideElement.id = "innerCell" + row + "X" + seatNumber;
+        insideElement.className = "innerCell";
+        const textNode = document.createTextNode(seatNumber);
+        insideElement.appendChild(textNode);
+        parentElement.appendChild(insideElement);
+    }
+
+    function addFakeSeat(parentElement) {
+        var insideElement = document.createElement("div");
+        //insideElement.id = "innerCell" + row + "X" + seatNumber;
+        insideElement.className = "innerCellFake";
+        //const textNode = document.createTextNode(seatNumber);
+        //insideElement.appendChild(textNode);
+        parentElement.appendChild(insideElement);
+    }
+
+    function getSeatConfig(row) {
+        const specialRows = "JKLMNOPRST";
+        const rowH = "H";
+        const rowsED = "ED";
+        const rowC = "C";
+        const rowB = "B";
+        const rowA = "A";
+        const rowsWVU = "WVU";
+        // const rowT = "T";
+        const rowX = "X";
+
+        if (specialRows.includes(row)) {
+            return {leftMax: 22, rightMax: 21};
+        } else if (row === rowH) {
+            return {leftMax: 24, rightMax: 23};
+        } else if (rowsED.includes(row)) {
+            return {leftMax: 18, rightMax: 17};
+        } else if (row === rowC) {
+            return {leftMax: 16, rightMax: 15};
+        } else if (row === rowB) {
+            return {leftMax: 14, rightMax: 13};
+        } else if (row === rowA) {
+            return {leftMax: 12, rightMax: 11};
+        } else if (rowsWVU.includes(row)) {
+            return {leftMax: 20, rightMax: 19};
+        } /*else if (row === rowT) {
+           // return {leftMax: 12, rightMax: 11};
+        }*/ else if (row === rowX) {
+            return {leftMax: 1, rightMax: 15};
+        } else {
+            return {leftMax: 20, rightMax: 19};
+        }
+    }
+
     useEffect(() => {
+        loadSeating();
+        myFunction();
         const functions = getFunctions();
         const cartExists = httpsCallable(functions, 'cartExists');
         //alert("HERE")
@@ -169,14 +343,14 @@ function TicketScreen(props) {
                 const data = result.data;
                 //alert('status:' + data.status);
                 if (data.status === 'pass') {
-                    if(data.message.length <=0){
+                    if (data.message.length <= 0) {
                         setCardCount(0);
-                    }else{
+                    } else {
                         var inCart = data.message.split(',');
-                       // alert('inCart:' + JSON.stringify(inCart) + " len:" + inCart.length);
+                        // alert('inCart:' + JSON.stringify(inCart) + " len:" + inCart.length);
                         setCardCount(inCart.length);
                     }
-                }else{
+                } else {
                     setCardCount(0);
                     //alert("failed update")
                 }
@@ -184,10 +358,89 @@ function TicketScreen(props) {
             alert('Client Error: ' + error.message);
         });
     }, [props.ticketIn]);
+    var rejectModernity = (event) => {
+        event.preventDefault();
+        return false;
+    }
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const myFunction = () => {
+        // alert('Function called every X seconds');
+        const functions = getFunctions();
+        const cartExists = httpsCallable(functions, 'cartExists');
+        cartExists({'uid': localStorage.getItem('uid')})
+            .then(async (result) => {
+                //  alert("Here 2");
+                const docRef = await doc(db, "gen", "open");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data2 = await docSnap.data();
+                    await localStorage.setItem('data', JSON.stringify(data2))
+                    //await setData(JSON.parse(JSON.stringify(data2)));
+                    const data = result.data;
+                    await loadSeating();
+                    // alert('status:' + data.status);
+                    if (data.status === 'pass') {
+                        //Display products
+                        var inCartNow = data.message.split(',');
+                        setInCart(inCartNow);
+
+                        inCartNow.forEach((value) => {
+                            const seatDiv = document.getElementById("innerCell" + value.substring(0, 1) + "X" + value.substring(1));
+                            if (seatDiv) {
+                                seatDiv.style.backgroundColor = '#5f3e90';
+                            }
+                        });
+                    } else if (data.status !== 'fail') {
+                        //alert("Server error");
+                    }
+                }
+            }).catch((error) => {
+            alert('Client Error: ' + error.message);
+        });
+    };
+
+    useEffect(() => {
+        // Set up the interval to call the function every X seconds
+        const interval = setInterval(myFunction, 300000);
+
+        // Clean up the interval when the component is unmounted
+        return () => {
+            clearInterval(interval);
+        };
+    }, []);
     return (
         <div className={"Main3"} /* style={{visibility: props.ticketIn ? 'visible' : 'hidden'}}*/>
-            <div id={"holdPng"}>
+            <div className={"mapDetails"}>
+                <div id={"colorOne"}></div>
+                <text>Unavailable</text>
+                <div id={"colorTwo"}></div>
+                <text>In Cart</text>
+                <div id={"colorThree"}></div>
+                <text>Available</text>
+                <text id={"zoomText"}>Map can be zoomed/dragged</text>
+            </div>
+            <div id="panContainer">
+                <PanZoom className={"zoomClass"}>
+                    <div id="seatingMain"></div>
+                </PanZoom>
+            </div>
+            <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
+            <div className={"stickRight"}>
+                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+                <span className="badge">{cardCount}</span>
+            </div>
+            <div className={"SideBar"}>
+                <input placeholder={"Search(Ex:C or C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
+                <div id={"holdCards"}>
+                    {cards}
+                </div>
+            </div>
+            {/* <div id={"holdPng"}>
                 <img id={"seatingPng"} src={require('./wpac.png')} />
             </div>
             <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
@@ -202,9 +455,10 @@ function TicketScreen(props) {
                     {cards}
                 </div>
 
-            </div>
+            </div>*/}
+
         </div>
-);
+    );
 }
 
 export default TicketScreen;
