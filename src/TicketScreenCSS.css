@@ -158,6 +158,7 @@
     outline: none;
     outline-style: none;
     border-style: none;
+    touch-action: none;
 }
 
 .innerCell {
