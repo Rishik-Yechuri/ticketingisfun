@@ -12,6 +12,13 @@
     align-items: center;
     flex-direction: column;
     overflow: scroll;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
 }
 
 .SideBar {
@@ -141,8 +148,17 @@
     align-items: center;
     justify-content: center;
     background-color: #555555;
+    outline: none;
+    outline-style: none;
+    touch-action: none;
+    border-style: none;
 }
 
+#panContainer:focus {
+    outline: none;
+    outline-style: none;
+    border-style: none;
+}
 
 .innerCell {
     margin-left: .1em;
