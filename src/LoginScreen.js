@@ -54,14 +54,7 @@ function LoginScreen(props) {
 
     const [username, setUserName] = useState('');
     const [name, setName] = useState('');
-
-
-    const handleUsername = (event) => {
-        setUserName(event.target.value);
-    };
-    const handleName = (event) => {
-        setName(event.target.value);
-    };
+    
 
     return (
         <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
