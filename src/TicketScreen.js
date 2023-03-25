@@ -261,7 +261,6 @@ function TicketScreen(props) {
             }
         }
         loadExisting().then(r => {
-            //alert("HERE");
         });
     }
 
@@ -269,8 +268,6 @@ function TicketScreen(props) {
         //await sleep(1000);
         var tempArr = JSON.parse(localStorage.getItem('data'));
         for (const key in tempArr) {
-            //alert("key:" + key);
-            //   arr.push(key);
             var firstPart = key.substring(0, 1);
             var secondPart = key.substring(1);
             const seatDiv = document.getElementById("innerCell" + firstPart + "X" + secondPart);
@@ -285,7 +282,71 @@ function TicketScreen(props) {
         insideElement.className = "innerCell";
         const textNode = document.createTextNode(seatNumber);
         insideElement.appendChild(textNode);
+        // Add flag to prevent click event after drag event
+        var dragging = false;
+
+// Add event listener for touchstart or mousedown
+        insideElement.addEventListener('touchstart', function (e) {
+            dragging = false;
+        });
+        insideElement.addEventListener('mousedown', function (e) {
+            dragging = false;
+        });
+
+// Add event listener for touchmove or mousemove
+        insideElement.addEventListener('touchmove', function (e) {
+            dragging = true;
+        });
+        insideElement.addEventListener('mousemove', function (e) {
+            dragging = true;
+        });
+
+// Add event listener for touchend or mouseup
+        insideElement.addEventListener('touchend', endHandler);
+        insideElement.addEventListener('mouseup', endHandler);
+
+// Handle end of dragging or touch
+        function endHandler(e) {
+            if (!dragging) {
+                clickHandler(e);
+            }
+            dragging = false;
+        }
+
+        // Add event listener for click or tap
+        // insideElement.addEventListener('click', clickHandler);
+
+
         parentElement.appendChild(insideElement);
+
+    }
+
+    function clickHandler(event) {
+        alert("here");
+        const id = event.target.id;
+        //var firstPart = key.substring(0, 1);
+        //var secondPart = key.substring(1);
+        var data = localStorage.getItem('data');
+        var isInCart = false;
+        for (const key in data) {
+            var tempFirstPart = key.substring(0, 1);
+            var tempSecondPart = key.substring(1);
+
+            if (id === (tempFirstPart + 'X' + tempSecondPart)) {
+                isInCart = true;
+                //It's in cart
+            }
+            //const seatDiv = document.getElementById("innerCell" + firstPart + "X" + secondPart);
+            // seatDiv.style.backgroundColor = 'whitesmoke';
+        }
+        var element = document.getElementById(id);
+        if (isInCart) {
+            //Remove from cart frontend
+            element.style.backgroundColor = 'whitesmoke';
+            //Call remove from cart backend
+        } else {
+            //Call checkIfFieldExists
+        }
     }
 
     function addFakeSeat(parentElement) {
@@ -431,7 +492,7 @@ function TicketScreen(props) {
             </div>
             <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
             <div className={"stickRight"}>
-                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
+                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}/>
                 <span className="badge">{cardCount}</span>
             </div>
             <div className={"SideBar"}>
