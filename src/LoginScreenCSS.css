@@ -11,7 +11,6 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow-y: scroll;
 }
 
 .LoginHolder {
@@ -92,4 +91,9 @@ margin-top: 1em;
 }
 #nirvanam{
     font-family: "Lobster", cursive;
+}
+#noMore{
+    max-width: 22em;
+    text-align: center;
+    color: whitesmoke;
 }

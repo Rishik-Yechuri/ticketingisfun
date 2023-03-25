@@ -65,17 +65,19 @@ function LoginScreen(props) {
 
     return (
         <div className={"Main2"} /*style={{ visibility: props.visibleState ? 'visible' : 'hidden' }}*/>
-            <div id={"everything"}>
+            <img id={"eventPng"} src={require('./eventinfo.png')}/>
+            <text id={"noMore"}>Online ticket sales are closed now. Please email kalamandapamdanceschool@gmail.com for any tickets to be held for cash at the venue</text>
+            {/*<div id={"everything"}>
                 <div id={"holdPng"}>
-                    {/*
+
                     <img id={"logoPng"} src={require('./kkdslogo.png')}/>
-*/}
+
                     <img id={"eventPng"} src={require('./eventinfo.png')}/>
 
-                    {/*<text className={"titleText"}>Kalamandapam</text>
+                    <text className={"titleText"}>Kalamandapam</text>
                     <text className={"subtitleText"}>Proudly Presents</text>
                     <text id={"nirvanam"} className={"titleText"}>Nritya Nirvanam 2023</text>
-                    <text className={"eventText"}>Wagner performing arts center | March 26th, seating starts at 3PM | Monroe,WA</text>*/}
+                    <text className={"eventText"}>Wagner performing arts center | March 26th, seating starts at 3PM | Monroe,WA</text>
                 </div>
                 <div className={"LoginHolder"}>
                     <form className="LoginHolder" onSubmit={SignInButton}>
@@ -86,7 +88,8 @@ function LoginScreen(props) {
                     </form>
                 </div>
 
-            </div>
+            </div>*/}
+
         </div>
     );
 }
