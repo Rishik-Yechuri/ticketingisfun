@@ -261,19 +261,16 @@ function TicketScreen(props) {
             }
         }
         loadExisting().then(r => {
-            //alert("HERE");
         });
     }
 
     async function loadExisting() {
         //await sleep(1000);
-        var tempArr = JSON.parse(localStorage.getItem('data'));
+        var tempArr = await JSON.parse(localStorage.getItem('data'));
         for (const key in tempArr) {
-            //alert("key:" + key);
-            //   arr.push(key);
             var firstPart = key.substring(0, 1);
             var secondPart = key.substring(1);
-            const seatDiv = document.getElementById("innerCell" + firstPart + "X" + secondPart);
+            const seatDiv = await document.getElementById("innerCell" + firstPart + "X" + secondPart);
             //alert("key:" + key);
             seatDiv.style.backgroundColor = 'whitesmoke';
         }
@@ -285,7 +282,223 @@ function TicketScreen(props) {
         insideElement.className = "innerCell";
         const textNode = document.createTextNode(seatNumber);
         insideElement.appendChild(textNode);
+        // Add flag to prevent click event after drag event
+        var dragging = false;
+
+// Add event listener for touchstart or mousedown
+        insideElement.addEventListener('touchstart', function (e) {
+            dragging = false;
+        });
+        insideElement.addEventListener('mousedown', function (e) {
+            dragging = false;
+        });
+
+// Add event listener for touchmove or mousemove
+        insideElement.addEventListener('touchmove', function (e) {
+            dragging = true;
+        });
+        insideElement.addEventListener('mousemove', function (e) {
+            dragging = true;
+        });
+
+// Add event listener for touchend or mouseup
+        insideElement.addEventListener('touchend', endHandler);
+        insideElement.addEventListener('mouseup', endHandler);
+
+// Handle end of dragging or touch
+        function endHandler(e) {
+            if (!dragging) {
+                clickHandler(e);
+            }
+            dragging = false;
+        }
+
+        // Add event listener for click or tap
+        // insideElement.addEventListener('click', clickHandler);
+
+
         parentElement.appendChild(insideElement);
+
+    }
+
+    function clickHandler(event) {
+        const id = event.target.id;
+        var isInCart = false;
+        var firstPart;
+        var secondPart;
+        //var firstPart = key.substring(0, 1);
+        //var secondPart = key.substring(1);
+        var data = JSON.parse(localStorage.getItem('cart'));
+        if (data && Array.isArray(data)) {
+            // Loop through the cartArray using forEach
+            data.forEach(function (item, index) {
+                // Your code to handle each item in the array
+                var tempFirstPart = item.substring(0, 1);
+                var tempSecondPart = item.substring(1);
+                //alert("Item:" + item + " id:" + (id));
+                if (id === ('innerCell' + tempFirstPart + 'X' + tempSecondPart)) {
+                    isInCart = true;
+                    firstPart = tempFirstPart;
+                    secondPart = tempSecondPart;
+                    //It's in cart
+                }
+            });
+        } else {
+            console.log('No cart data found or invalid cart data.');
+        }
+        var element = document.getElementById(id);
+        //alert("here:" + isInCart);
+
+        if (isInCart) {
+            //Remove from cart frontend
+            element.style.backgroundColor = 'whitesmoke';
+            //alert('cardCount:' + cardCount);
+            // Example array (you will use the data variable from localStorage)
+            var data = JSON.parse(localStorage.getItem('cart'));
+            var itemToRemove = (firstPart  + secondPart).toString();
+            //alert('itemToRemove:' + itemToRemove);
+            var index = data.indexOf(itemToRemove);
+            //alert("Index to removed:" + index);
+            // Check if the value was found in the array
+            if (index !== -1) {
+                // Remove the element at the found index
+                data.splice(index, 1);
+                //alert('Removed item');
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            } else {
+                console.log('Value not found in the array');
+            }
+            // The value you want to remove
+            //var valueToRemove = 'yourValue';
+
+            var index = data.indexOf('innerCell' + firstPart + 'X' + secondPart);
+
+            // Check if the value was found in the array
+            if (index !== -1) {
+                // Remove the element at the found index
+                data.splice(index, 1);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            } else {
+                console.log('Value not found in the array');
+            }
+            var cartBadge = document.getElementById('cartBadge');
+
+            // Get the text content of the span
+            var cartBadgeText = cartBadge.textContent;
+
+            // Convert the text content to an integer
+            var cartBadgeNumber = parseInt(cartBadgeText, 10);
+            var newCartBadgeNumber = cartBadgeNumber - 1;
+
+            cartBadge.textContent = (newCartBadgeNumber.toString());
+            setCardCount(newCartBadgeNumber);
+            // setCardCount(newCount);
+            //Call remove from cart backend
+            const functions = getFunctions();
+            const removeFromCart = httpsCallable(functions, 'removeFromCart');
+            //alert('id:' + (firstPart+secondPart));
+            removeFromCart({'uid': localStorage.getItem('uid'), 'fieldName': (firstPart + secondPart)})
+                .then((result) => {
+                    const data = result.data;
+                    if (data.status !== 'pass') {
+                        element.style.backgroundColor = '#5f3e90';
+                        data.push(first+second);
+
+                        // Save the updated array back to localStorage
+                        localStorage.setItem('cart', JSON.stringify(data));
+                        var cartBadge = document.getElementById('cartBadge');
+
+                        // Get the text content of the span
+                        var cartBadgeText = cartBadge.textContent;
+
+                        // Convert the text content to an integer
+                        var cartBadgeNumber = parseInt(cartBadgeText, 10);
+                        var newCartBadgeNumber = cartBadgeNumber + 1;
+
+                        cartBadge.textContent = (newCartBadgeNumber.toString());
+                        setCardCount(newCartBadgeNumber);
+                    } else if (data.status === 'pass') {
+                        //alert("Error removing(Session may have timed out,refresh)");
+                    }
+                }).catch((error) => {
+                alert('Client Error: ' + error);
+            });
+        } else {
+            //Call checkIfFieldExists
+            const functions = getFunctions();
+            const checkFieldExists = httpsCallable(functions, 'checkFieldExists');
+            var tempId = id.replace('innerCell', '');
+            var first = tempId.substring(0, 1);
+            var second = tempId.substring(2, id.length)
+            const fieldName = first + second;
+            var data = JSON.parse(localStorage.getItem('cart'));
+
+            // The value you want to remove
+            //var valueToRemove = 'yourValue';
+
+            // Find the index of the element with the given value
+            //var index = data.indexOf('innerCell' + firstPart + 'X' + secondPart);
+
+            // Check if the value was found in the array
+            //if (index !== -1) {
+                // Remove the element at the found index
+                data.push(first+second);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            //} else {
+              //  console.log('Value not found in the array');
+            //}
+            checkFieldExists({'fieldName': [fieldName], 'uid': uid})
+                .then((result) => {
+                    // Read result of the Cloud Function.
+                    /** @type {any} */
+                    const data = result.data;
+                    var returnMessage = data.message;
+                    if (returnMessage !== 'Not Available anymore' && returnMessage !== 'Error Adding') {
+                        var element = document.getElementById(id);
+                        element.style.backgroundColor = '#5f3e90';
+                        var cartBadge = document.getElementById('cartBadge');
+
+                        var cartBadgeText = cartBadge.textContent;
+
+                        var cartBadgeNumber = parseInt(cartBadgeText, 10);
+                        var newCartBadgeNumber = cartBadgeNumber + 1;
+
+                        cartBadge.textContent = (newCartBadgeNumber.toString());
+                        setCardCount(newCartBadgeNumber);
+                        //const cartKey = uid + " cart";
+                        //let cart = /*JSON.parse(localStorage.getItem(cartKey)) || */[];
+                        //cart.push(id);
+                        //localStorage.setItem(cartKey, JSON.stringify(cart));
+                        //addToCart(); // call addToCart function to update cart count
+                    } else {
+
+                        // The value you want to remove
+                        //var valueToRemove = 'yourValue';
+
+                        // Find the index of the element with the given value
+                        var index = data.indexOf((firstPart + secondPart));
+
+                        // Check if the value was found in the array
+                        if (index !== -1) {
+                            // Remove the element at the found index
+                            data.splice(index, 1);
+
+                            // Save the updated array back to localStorage
+                            localStorage.setItem('cart', JSON.stringify(data));
+                        } else {
+                            console.log('Value not found in the array');
+                        }
+                        /* if (buttonText !== "✓") {
+                             alert(returnMessage);
+                         }*/
+                    }
+                });
+        }
     }
 
     function addFakeSeat(parentElement) {
@@ -387,6 +600,7 @@ function TicketScreen(props) {
                     if (data.status === 'pass') {
                         //Display products
                         var inCartNow = data.message.split(',');
+                        localStorage.setItem('cart', JSON.stringify(inCartNow));
                         setInCart(inCartNow);
 
                         inCartNow.forEach((value) => {
@@ -431,32 +645,9 @@ function TicketScreen(props) {
             </div>
             <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
             <div className={"stickRight"}>
-                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
-                <span className="badge">{cardCount}</span>
+                <img onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}/>
+                <span id={"cartBadge"} className="badge">{cardCount}</span>
             </div>
-            <div className={"SideBar"}>
-                <input placeholder={"Search(Ex:C or C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
-                <div id={"holdCards"}>
-                    {cards}
-                </div>
-            </div>
-            {/* <div id={"holdPng"}>
-                <img id={"seatingPng"} src={require('./wpac.png')} />
-            </div>
-            <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
-
-            <div className={"stickRight"}>
-                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
-                <span className="badge">{cardCount}</span>
-            </div>
-            <div className={"SideBar"}>
-                <input placeholder={"Search(Ex:C or C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
-                <div id={"holdCards"}>
-                    {cards}
-                </div>
-
-            </div>*/}
-
         </div>
     );
 }
