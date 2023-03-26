@@ -335,7 +335,7 @@ function TicketScreen(props) {
                 // Your code to handle each item in the array
                 var tempFirstPart = item.substring(0, 1);
                 var tempSecondPart = item.substring(1);
-                alert("Item:" + item + " id:" + (id));
+                //alert("Item:" + item + " id:" + (id));
                 if (id === ('innerCell' + tempFirstPart + 'X' + tempSecondPart)) {
                     isInCart = true;
                     firstPart = tempFirstPart;
@@ -347,18 +347,49 @@ function TicketScreen(props) {
             console.log('No cart data found or invalid cart data.');
         }
         var element = document.getElementById(id);
-        alert("here:" + isInCart);
+        //alert("here:" + isInCart);
 
         if (isInCart) {
             //Remove from cart frontend
             element.style.backgroundColor = 'whitesmoke';
             //alert('cardCount:' + cardCount);
+            // Example array (you will use the data variable from localStorage)
+            var data = JSON.parse(localStorage.getItem('cart'));
+            var itemToRemove = (firstPart  + secondPart).toString();
+            //alert('itemToRemove:' + itemToRemove);
+            var index = data.indexOf(itemToRemove);
+            //alert("Index to removed:" + index);
+            // Check if the value was found in the array
+            if (index !== -1) {
+                // Remove the element at the found index
+                data.splice(index, 1);
+                //alert('Removed item');
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            } else {
+                console.log('Value not found in the array');
+            }
+            // The value you want to remove
+            //var valueToRemove = 'yourValue';
+
+            var index = data.indexOf('innerCell' + firstPart + 'X' + secondPart);
+
+            // Check if the value was found in the array
+            if (index !== -1) {
+                // Remove the element at the found index
+                data.splice(index, 1);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            } else {
+                console.log('Value not found in the array');
+            }
             var cartBadge = document.getElementById('cartBadge');
 
-// Get the text content of the span
+            // Get the text content of the span
             var cartBadgeText = cartBadge.textContent;
 
-// Convert the text content to an integer
+            // Convert the text content to an integer
             var cartBadgeNumber = parseInt(cartBadgeText, 10);
             var newCartBadgeNumber = cartBadgeNumber - 1;
 
@@ -374,6 +405,21 @@ function TicketScreen(props) {
                     const data = result.data;
                     if (data.status !== 'pass') {
                         element.style.backgroundColor = '#5f3e90';
+                        data.push(first+second);
+
+                        // Save the updated array back to localStorage
+                        localStorage.setItem('cart', JSON.stringify(data));
+                        var cartBadge = document.getElementById('cartBadge');
+
+                        // Get the text content of the span
+                        var cartBadgeText = cartBadge.textContent;
+
+                        // Convert the text content to an integer
+                        var cartBadgeNumber = parseInt(cartBadgeText, 10);
+                        var newCartBadgeNumber = cartBadgeNumber + 1;
+
+                        cartBadge.textContent = (newCartBadgeNumber.toString());
+                        setCardCount(newCartBadgeNumber);
                     } else if (data.status === 'pass') {
                         //alert("Error removing(Session may have timed out,refresh)");
                     }
@@ -388,7 +434,24 @@ function TicketScreen(props) {
             var first = tempId.substring(0, 1);
             var second = tempId.substring(2, id.length)
             const fieldName = first + second;
+            var data = JSON.parse(localStorage.getItem('cart'));
 
+            // The value you want to remove
+            //var valueToRemove = 'yourValue';
+
+            // Find the index of the element with the given value
+            //var index = data.indexOf('innerCell' + firstPart + 'X' + secondPart);
+
+            // Check if the value was found in the array
+            //if (index !== -1) {
+                // Remove the element at the found index
+                data.push(first+second);
+
+                // Save the updated array back to localStorage
+                localStorage.setItem('cart', JSON.stringify(data));
+            //} else {
+              //  console.log('Value not found in the array');
+            //}
             checkFieldExists({'fieldName': [fieldName], 'uid': uid})
                 .then((result) => {
                     // Read result of the Cloud Function.
@@ -413,9 +476,26 @@ function TicketScreen(props) {
                         //localStorage.setItem(cartKey, JSON.stringify(cart));
                         //addToCart(); // call addToCart function to update cart count
                     } else {
-                       /* if (buttonText !== "✓") {
-                            alert(returnMessage);
-                        }*/
+
+                        // The value you want to remove
+                        //var valueToRemove = 'yourValue';
+
+                        // Find the index of the element with the given value
+                        var index = data.indexOf((firstPart + secondPart));
+
+                        // Check if the value was found in the array
+                        if (index !== -1) {
+                            // Remove the element at the found index
+                            data.splice(index, 1);
+
+                            // Save the updated array back to localStorage
+                            localStorage.setItem('cart', JSON.stringify(data));
+                        } else {
+                            console.log('Value not found in the array');
+                        }
+                        /* if (buttonText !== "✓") {
+                             alert(returnMessage);
+                         }*/
                     }
                 });
         }
