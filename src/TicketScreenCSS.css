@@ -11,7 +11,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow: scroll;
+    overflow: auto;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -127,7 +127,6 @@
 }
 
 #seatingMain {
-    overflow: hidden;
     width: fit-content;
     height: fit-content;
     display: flex;
@@ -138,10 +137,10 @@
 }
 
 .zoomClass {
-    overflow: hidden;
 }
 
 #panContainer {
+    overflow: hidden;
     max-width: 90%;
     max-height: 90%;
     display: flex;
@@ -203,7 +202,7 @@
     transform: translateX(-50%); /* Adjust for the child div's width */
     width: .1em; /* Set the width to be thin */
     height: 100%; /* Set the height to match the parent's height */
-    background-color: black;
+    background-color: #4E4848;
 }
 
 .soundBooth {
