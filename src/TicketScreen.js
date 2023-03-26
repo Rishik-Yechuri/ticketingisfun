@@ -440,23 +440,6 @@ function TicketScreen(props) {
                     {cards}
                 </div>
             </div>
-            {/* <div id={"holdPng"}>
-                <img id={"seatingPng"} src={require('./wpac.png')} />
-            </div>
-            <text className={"eventText"}>Ticket - $12.99 each(1 Dinner box included per ticket)</text>
-
-            <div className={"stickRight"}>
-                <img  onClick={goToCheckout} id={"cartPng"} src={require('./cart.png')}  />
-                <span className="badge">{cardCount}</span>
-            </div>
-            <div className={"SideBar"}>
-                <input placeholder={"Search(Ex:C or C15)"} id={"SearchBar"} className={"Search"} onChange={timesUp}/>
-                <div id={"holdCards"}>
-                    {cards}
-                </div>
-
-            </div>*/}
-
         </div>
     );
 }
