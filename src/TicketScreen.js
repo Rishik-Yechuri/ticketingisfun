@@ -436,12 +436,6 @@ function TicketScreen(props) {
             const fieldName = first + second;
             var data = JSON.parse(localStorage.getItem('cart'));
 
-            // The value you want to remove
-            //var valueToRemove = 'yourValue';
-
-            // Find the index of the element with the given value
-            //var index = data.indexOf('innerCell' + firstPart + 'X' + secondPart);
-
             // Check if the value was found in the array
             //if (index !== -1) {
                 // Remove the element at the found index
