@@ -37,7 +37,7 @@ function LoginScreen(props) {
     function SignInButton() {
        var splitEmail = username.toLowerCase().split("@")[1].split(".")[1];
        if(!(splitEmail === 'com' || splitEmail === 'net' || splitEmail === 'org' || splitEmail === 'us')){
-           alert('Email:' + username + ' might not exist');
+          // alert('Email:' + username + ' might not exist');
        }
         localStorage.setItem("uid", username.toLowerCase());
         localStorage.setItem("name", name);

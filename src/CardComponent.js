@@ -54,7 +54,7 @@ function Card({newCards,setNewCards,addToCart,removeEnabled,uid,title, subtitle,
                         addToCart(); // call addToCart function to update cart count
                     }else{
                         if(buttonText !== "✓"){
-                            alert(returnMessage);
+                           //(returnMessage);
                         }
                     }
                 });
@@ -71,7 +71,7 @@ function Card({newCards,setNewCards,addToCart,removeEnabled,uid,title, subtitle,
                     setNewCards(newCards+1);
                     // Remove the card from the list
                 } else {
-                    alert("Error removing(Session may have timed out,refresh)");
+                   // alert("Error removing(Session may have timed out,refresh)");
                 }
             }).catch((error) => {
             //alert('Client Error: ' + error);

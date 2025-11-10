@@ -148,7 +148,7 @@ function TicketScreen(props) {
                 localStorage.setItem("set", JSON.stringify(data));
             } else {
                 // doc.data() will be undefined in this case
-                alert("Error getting account info");
+               // alert("Error getting account info");
             }
         }
 
@@ -424,7 +424,7 @@ function TicketScreen(props) {
                         //alert("Error removing(Session may have timed out,refresh)");
                     }
                 }).catch((error) => {
-                alert('Client Error: ' + error);
+               // alert('Client Error: ' + error);
             });
         } else {
             //Call checkIfFieldExists

@@ -73,12 +73,12 @@ function Checkout(props) {
                         //localStorage.setItem('cardIds',JSON.stringify(ids));
                         setCardNum(allCards.length);
                     } else if (data.status === 'fail') {
-                        alert("No Items in cart(or 10 minute time limit to buy tickets exceeded,try refreshing)");
+                      //  alert("No Items in cart(or 10 minute time limit to buy tickets exceeded,try refreshing)");
                     } else {
-                        alert("Server error");
+                       // alert("Server error");
                     }
                 }).catch((error) => {
-                alert('Client Error: ' + error.message);
+               // alert('Client Error: ' + error.message);
             });
         }
 
